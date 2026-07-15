@@ -1,0 +1,749 @@
+run sh: `/usr/local/bin/python /usr/local/lib/python3.12/site-packages/swift/cli/sft.py --model google/gemma-3-270m --use_hf False --dataset ./train.jsonl --val_dataset ./valid.jsonl --split_dataset_ratio 0.0 --tuner_type lora --tuner_backend peft --target_modules all-linear --lora_rank 16 --lora_alpha 32 --lora_dropout 0.05 --torch_dtype bfloat16 --max_length 4096 --truncation_strategy delete --loss_scale last_round --packing False --num_train_epochs 8 --per_device_train_batch_size 1 --per_device_eval_batch_size 1 --gradient_accumulation_steps 8 --learning_rate 0.0002 --weight_decay 0.01 --lr_scheduler_type cosine --warmup_ratio 0.05 --max_grad_norm 1.0 --eval_strategy steps --eval_steps 28 --save_strategy steps --save_steps 28 --save_total_limit 3 --load_best_model_at_end True --metric_for_best_model loss --greater_is_better False --early_stop_interval 3 --logging_steps 5 --logging_first_step True --report_to tensorboard --output_dir ./output/gemma3-270m-lora-r16 --seed 42 --data_seed 42 --dataset_num_proc 4 --dataloader_num_workers 2`
+[INFO:swift] Successfully registered `/usr/local/lib/python3.12/site-packages/swift/dataset/data/dataset_info.json`.
+[INFO:swift] rank: -1, local_rank: -1, world_size: 1, local_world_size: 1
+[INFO:swift] Downloading the model from ModelScope Hub, model_id: google/gemma-3-270m
+2026-07-13 19:33:49,418 | INFO    | modelscope_hub.download | Downloading 10 files from google/gemma-3-270m@master
+Downloading:   0%|          | 0/10 [00:00<?, ?file/s]/usr/local/lib/python3.12/site-packages/modelscope_hub/_download.py:482: FutureWarning: Environment variable 'INTRA_CLOUD_ACCELERATION_REGION' is deprecated, use 'MODELSCOPE_DOWNLOAD_INTRA_CLOUD_REGION' instead.
+  self._download_with_resume(
+
+.gitattributes:   0%|          | 0.00/2.19k [00:00<?, ?B/s][A
+                                                           [ADownloading:  10%|█         | 1/10 [00:00<00:01,  5.59file/s]
+added_tokens.json:   0%|          | 0.00/35.0 [00:00<?, ?B/s][A
+
+configuration.json:   0%|          | 0.00/73.0 [00:00<?, ?B/s][A[A
+
+
+generation_config.json:   0%|          | 0.00/133 [00:00<?, ?B/s][A[A[A
+
+
+
+config.json:   0%|          | 0.00/1.35k [00:00<?, ?B/s][A[A[A[A
+                                                             [A
+
+                                                              [A[A
+
+
+                                                                 [A[A[A
+
+
+
+                                                        [A[A[A[ADownloading:  20%|██        | 2/10 [00:00<00:01,  4.91file/s]
+README.md:   0%|          | 0.00/28.3k [00:00<?, ?B/s][A
+                                                      [A
+special_tokens_map.json:   0%|          | 0.00/662 [00:00<?, ?B/s][ADownloading:  60%|██████    | 6/10 [00:00<00:00, 11.01file/s]
+                                                                  [A
+tokenizer.json:   0%|          | 0.00/33.4M [00:00<?, ?B/s][A
+tokenizer.json:  47%|████▋     | 15.7M/33.4M [00:00<00:00, 153MB/s][A
+                                                                   [A
+tokenizer_config.json:   0%|          | 0.00/1.16M [00:00<?, ?B/s][A
+                                                                  [ADownloading:  80%|████████  | 8/10 [00:01<00:00,  7.44file/s]
+tokenizer.model:   0%|          | 0.00/4.69M [00:00<?, ?B/s][ADownloading:  90%|█████████ | 9/10 [00:01<00:00,  6.78file/s]
+                                                            [ADownloading: 100%|██████████| 10/10 [00:01<00:00,  6.83file/s]Downloading: 100%|██████████| 10/10 [00:01<00:00,  7.15file/s]
+[INFO:swift] Loading the model using model_dir: /mnt/workspace/.cache/modelscope/google/gemma-3-270m
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+[INFO:swift] Because len(args.val_dataset) > 0, setting split_dataset_ratio: 0.0
+[INFO:swift] Setting args.lazy_tokenize: False
+[transformers] warmup_ratio is deprecated and will be removed in v5.2. Use `warmup_steps` instead.
+[INFO:swift] output_dir: /mnt/workspace/logo-svg-assignment/output/gemma3-270m-lora-r16/v0-20260713-193350
+[INFO:swift] args: SftArguments(
+acc_strategy=token,
+accelerator_config={'dispatch_batches': False},
+adalora_beta1=0.85,
+adalora_beta2=0.85,
+adalora_deltaT=1,
+adalora_init_r=12,
+adalora_orth_reg_weight=0.5,
+adalora_target_r=8,
+adalora_tfinal=0,
+adalora_tinit=0,
+adam_beta1=0.9,
+adam_beta2=0.95,
+adam_epsilon=1e-08,
+adapter_act=gelu,
+adapter_length=128,
+adapters=[],
+add_non_thinking_prefix=True,
+add_version=True,
+agent_template=None,
+aligner_lr=None,
+attn_impl=None,
+auto_find_batch_size=False,
+average_tokens_across_devices=True,
+batch_eval_metrics=False,
+bf16=True,
+bf16_full_eval=False,
+bnb_4bit_compute_dtype=torch.bfloat16,
+bnb_4bit_quant_storage=None,
+bnb_4bit_quant_type=nf4,
+bnb_4bit_use_double_quant=True,
+boft_block_num=0,
+boft_block_size=4,
+boft_dropout=0.0,
+boft_n_butterfly_factor=1,
+cached_dataset=[],
+cached_val_dataset=[],
+callbacks=[],
+check_model=True,
+columns={},
+create_checkpoint_symlink=False,
+custom_dataset_info=[],
+custom_register_path=[],
+data_seed=42,
+dataloader_drop_last=False,
+dataloader_num_workers=2,
+dataloader_persistent_workers=False,
+dataloader_pin_memory=True,
+dataloader_prefetch_factor=None,
+dataset=['./train.jsonl'],
+dataset_num_proc=4,
+dataset_shuffle=True,
+ddp_backend=None,
+ddp_broadcast_buffers=None,
+ddp_bucket_cap_mb=None,
+ddp_find_unused_parameters=None,
+ddp_static_graph=None,
+ddp_timeout=18000000,
+debug=None,
+deepspeed=None,
+deepspeed_autotp_size=None,
+device_groups=None,
+device_map=None,
+disable_auto_column_mapping=False,
+disable_tqdm=None,
+do_eval=False,
+do_predict=False,
+do_train=False,
+download_mode=reuse_dataset_if_exists,
+ds3_gather_for_generation=True,
+early_stop_interval=3,
+enable_channel_loss=False,
+enable_dft_loss=False,
+enable_jit_checkpoint=False,
+enable_npu_model_patch=True,
+enable_thinking=None,
+eval_accumulation_steps=None,
+eval_dataset=[],
+eval_dataset_args=None,
+eval_delay=0,
+eval_do_concat_batches=True,
+eval_generation_config=None,
+eval_limit=None,
+eval_metric=None,
+eval_on_start=False,
+eval_steps=28.0,
+eval_strategy=steps,
+eval_use_evalscope=False,
+eval_use_gather_object=False,
+experts_impl=None,
+external_plugins=[],
+extra_eval_args=None,
+fourier_n_frequency=2000,
+fourier_scaling=300.0,
+fp16=False,
+fp16_full_eval=False,
+freeze_aligner=True,
+freeze_llm=False,
+freeze_parameters=[],
+freeze_parameters_ratio=0.0,
+freeze_parameters_regex=None,
+freeze_vit=True,
+fsdp=[],
+fsdp_config=None,
+full_determinism=False,
+galore_cos_threshold=0.4,
+galore_gamma_proj=2,
+galore_optim_per_parameter=False,
+galore_proj_bits=4,
+galore_proj_group_size=256,
+galore_proj_quant=False,
+galore_proj_type=std,
+galore_quantization=False,
+galore_queue_size=5,
+galore_rank=128,
+galore_scale=1.0,
+galore_target_modules=None,
+galore_update_proj_gap=50,
+galore_with_embedding=False,
+generation_config=None,
+generation_max_length=None,
+generation_num_beams=None,
+gradient_accumulation_steps=8,
+gradient_checkpointing=True,
+gradient_checkpointing_kwargs=None,
+greater_is_better=False,
+group_by_length=False,
+hqq_axis=None,
+hub_always_push=False,
+hub_model_id=None,
+hub_private_repo=None,
+hub_revision=None,
+hub_strategy=every_save,
+hub_token=<HUB_TOKEN>,
+ignore_args_error=False,
+ignore_data_skip=False,
+include_for_metrics=[],
+include_num_input_tokens_seen=False,
+init_strategy=None,
+init_weights=True,
+interleave_prob=None,
+label_names=None,
+label_smoothing_factor=0.0,
+lazy_tokenize=False,
+learning_rate=0.0002,
+length_column_name=length,
+liger_kernel_config=None,
+lisa_activated_layers=0,
+lisa_step_interval=20,
+llamapro_num_groups=None,
+llamapro_num_new_blocks=4,
+load_args=False,
+load_best_model_at_end=True,
+load_data_args=False,
+load_from_cache_file=False,
+local_rank=-1,
+local_repo_path=None,
+log_level=passive,
+log_level_replica=warning,
+log_on_each_node=True,
+logging_dir=/mnt/workspace/logo-svg-assignment/output/gemma3-270m-lora-r16/v0-20260713-193350/runs,
+logging_first_step=True,
+logging_nan_inf_filter=True,
+logging_steps=5,
+logging_strategy=steps,
+logprobs=False,
+lora_alpha=32,
+lora_bias=none,
+lora_dropout=0.05,
+lora_dtype=None,
+lora_ga_batch_size=2,
+lora_ga_direction=ArB2r,
+lora_ga_iters=2,
+lora_ga_max_length=1024,
+lora_ga_scale=stable,
+lora_ga_stable_gamma=16,
+lora_rank=16,
+lorap_lr_ratio=None,
+loss_scale=last_round,
+loss_type=None,
+lr_scheduler_kwargs=None,
+lr_scheduler_type=cosine,
+max_epochs=None,
+max_grad_norm=1.0,
+max_length=4096,
+max_memory={},
+max_model_len=None,
+max_new_tokens=64,
+max_pixels=None,
+max_shard_size=5GB,
+max_steps=-1,
+metric_for_best_model=loss,
+model=google/gemma-3-270m,
+model_author=None,
+model_kwargs={},
+model_name=None,
+model_revision=None,
+model_type=gemma3_text,
+modules_to_save=[],
+neftune_noise_alpha=None,
+new_special_tokens=[],
+norm_bbox=None,
+num_beams=1,
+num_labels=None,
+num_train_epochs=8.0,
+optim=adamw_torch_fused,
+optim_args=None,
+optim_target_modules=None,
+optimizer=None,
+output_dir=/mnt/workspace/logo-svg-assignment/output/gemma3-270m-lora-r16/v0-20260713-193350,
+packing=False,
+packing_length=None,
+packing_num_proc=1,
+padding_free=False,
+padding_side=right,
+parallelism_config=None,
+per_device_eval_batch_size=1,
+per_device_train_batch_size=1,
+predict_with_generate=False,
+prediction_loss_only=False,
+problem_type=None,
+project=huggingface,
+push_to_hub=False,
+quant_bits=None,
+quant_method=None,
+ray_exp_name=None,
+reft_args=None,
+reft_intervention_type=LoreftIntervention,
+reft_layer_key=None,
+reft_layers=None,
+reft_rank=4,
+remove_unused_columns=True,
+repetition_penalty=None,
+report_to=['tensorboard'],
+response_prefix=None,
+restore_callback_states_from_checkpoint=False,
+resume_from_checkpoint=None,
+resume_only_model=False,
+rope_scaling=None,
+router_aux_loss_coef=0.0,
+run_name=/mnt/workspace/logo-svg-assignment/output/gemma3-270m-lora-r16/v0-20260713-193350,
+safe_serialization=True,
+save_on_each_node=False,
+save_only_model=False,
+save_steps=28.0,
+save_strategy=steps,
+save_total_limit=3,
+seed=42,
+sequence_parallel_size=1,
+shuffle_buffer_size=1000,
+skip_memory_metrics=True,
+sortish_sampler=False,
+split_dataset_ratio=0.0,
+stop_words=[],
+stopping_strategy=first_exhausted,
+stream=False,
+streaming=False,
+strict=False,
+structured_outputs_regex=None,
+swanlab_email_language=zh,
+swanlab_exp_name=None,
+swanlab_mode=cloud,
+swanlab_notification_method=None,
+swanlab_project=ms-swift,
+swanlab_receiver_email=None,
+swanlab_secret=None,
+swanlab_sender_email=None,
+swanlab_smtp_port=None,
+swanlab_smtp_server=None,
+swanlab_token=<SWANLAB_TOKEN>,
+swanlab_webhook_url=None,
+swanlab_workspace=None,
+system=None,
+target_modules=['all-linear'],
+target_parameters=None,
+target_regex=None,
+task_type=causal_lm,
+temperature=0.0,
+template=gemma3_text,
+template_backend=swift,
+tf32=None,
+top_k=None,
+top_logprobs=None,
+top_p=None,
+torch_compile=False,
+torch_compile_backend=None,
+torch_compile_mode=None,
+torch_dtype=torch.bfloat16,
+torch_empty_cache_steps=None,
+trackio_bucket_id=None,
+trackio_space_id=None,
+trackio_static_space_id=None,
+train_dataloader_shuffle=True,
+train_sampling_strategy=random,
+trainable_parameters=[],
+trainable_parameters_regex=None,
+truncation_strategy=delete,
+tuner_backend=peft,
+tuner_type=lora,
+use_cache=False,
+use_chat_template=True,
+use_cpu=False,
+use_dora=False,
+use_flash_ckpt=False,
+use_galore=False,
+use_hf=False,
+use_liger_kernel=False,
+use_logits_to_keep=None,
+use_ray=False,
+use_rslora=False,
+use_swift_lora=False,
+val_dataset=['./valid.jsonl'],
+val_dataset_shuffle=False,
+vera_d_initial=0.1,
+vera_dropout=0.0,
+vera_projection_prng_key=0,
+vera_rank=256,
+vit_gradient_checkpointing=False,
+vit_lr=None,
+warmup_ratio=0.05,
+warmup_steps=0,
+weight_decay=0.01,
+zero_hpz_partition_size=None,
+)
+[INFO:swift] Global seed set to 42
+[INFO:swift] Downloading the model from ModelScope Hub, model_id: google/gemma-3-270m
+2026-07-13 19:33:51,472 | INFO    | modelscope_hub.download | Downloading 11 files from google/gemma-3-270m@master
+Downloading:   0%|          | 0/11 [00:00<?, ?file/s]/usr/local/lib/python3.12/site-packages/modelscope_hub/_download.py:482: FutureWarning: Environment variable 'INTRA_CLOUD_ACCELERATION_REGION' is deprecated, use 'MODELSCOPE_DOWNLOAD_INTRA_CLOUD_REGION' instead.
+  self._download_with_resume(
+
+model.safetensors:   0%|          | 0.00/536M [00:00<?, ?B/s][A
+model.safetensors:   2%|▏         | 11.5M/536M [00:00<00:04, 112MB/s][A
+model.safetensors:   5%|▍         | 26.2M/536M [00:00<00:04, 124MB/s][A
+model.safetensors:   7%|▋         | 38.8M/536M [00:00<00:04, 124MB/s][A
+model.safetensors:  10%|█         | 54.5M/536M [00:00<00:03, 130MB/s][A
+model.safetensors:  14%|█▎        | 73.4M/536M [00:00<00:03, 149MB/s][A
+model.safetensors:  17%|█▋        | 93.3M/536M [00:00<00:02, 165MB/s][A
+model.safetensors:  21%|██        | 110M/536M [00:00<00:02, 153MB/s] [A
+model.safetensors:  24%|██▍       | 130M/536M [00:00<00:02, 164MB/s][A
+model.safetensors:  29%|██▊       | 154M/536M [00:00<00:02, 182MB/s][A
+model.safetensors:  32%|███▏      | 173M/536M [00:01<00:02, 179MB/s][A
+model.safetensors:  36%|███▌      | 192M/536M [00:01<00:02, 171MB/s][A
+model.safetensors:  39%|███▉      | 210M/536M [00:01<00:02, 163MB/s][A
+model.safetensors:  43%|████▎     | 230M/536M [00:01<00:01, 171MB/s][A
+model.safetensors:  46%|████▌     | 247M/536M [00:01<00:01, 147MB/s][A
+model.safetensors:  49%|████▉     | 265M/536M [00:01<00:01, 154MB/s][A
+model.safetensors:  53%|█████▎    | 285M/536M [00:01<00:01, 164MB/s][A
+model.safetensors:  57%|█████▋    | 306M/536M [00:01<00:01, 176MB/s][A
+model.safetensors:  61%|██████    | 325M/536M [00:02<00:01, 177MB/s][A
+model.safetensors:  65%|██████▍   | 346M/536M [00:02<00:01, 181MB/s][A
+model.safetensors:  68%|██████▊   | 365M/536M [00:02<00:00, 183MB/s][A
+model.safetensors:  72%|███████▏  | 384M/536M [00:02<00:00, 182MB/s][A
+model.safetensors:  75%|███████▌  | 403M/536M [00:02<00:00, 166MB/s][A
+model.safetensors:  79%|███████▉  | 426M/536M [00:02<00:00, 181MB/s][A
+model.safetensors:  83%|████████▎ | 445M/536M [00:02<00:00, 133MB/s][A
+model.safetensors:  87%|████████▋ | 465M/536M [00:02<00:00, 147MB/s][A
+model.safetensors:  90%|████████▉ | 481M/536M [00:03<00:00, 147MB/s][A
+model.safetensors:  93%|█████████▎| 501M/536M [00:03<00:00, 151MB/s][A
+model.safetensors:  97%|█████████▋| 518M/536M [00:03<00:00, 122MB/s][A
+model.safetensors:  99%|█████████▉| 533M/536M [00:03<00:00, 126MB/s][A
+                                                                    [ADownloading: 100%|██████████| 11/11 [00:07<00:00,  1.53file/s]Downloading: 100%|██████████| 11/11 [00:07<00:00,  1.53file/s]
+[INFO:swift] Loading the model using model_dir: /mnt/workspace/.cache/modelscope/google/gemma-3-270m
+[INFO:swift] attn_impl: eager
+[INFO:swift] model_kwargs: {'device_map': 'cuda:0', 'dtype': torch.bfloat16}
+Loading weights:   0%|          | 0/236 [00:00<?, ?it/s]Loading weights: 100%|██████████| 236/236 [00:00<00:00, 2929.71it/s]
+[INFO:swift] model_info: ModelInfo(model_type='gemma3_text', model_dir='/mnt/workspace/.cache/modelscope/google/gemma-3-270m', torch_dtype=torch.bfloat16, max_model_len=32768, quant_method=None, quant_bits=None, rope_scaling={'sliding_attention': {'rope_type': 'default', 'rope_theta': 10000.0}, 'full_attention': {'rope_type': 'default', 'rope_theta': 1000000.0}}, is_moe_model=False, is_multimodal=False, config=Gemma3TextConfig {
+  "_sliding_window_pattern": 6,
+  "architectures": [
+    "Gemma3ForCausalLM"
+  ],
+  "attention_bias": false,
+  "attention_dropout": 0.0,
+  "attn_logit_softcapping": null,
+  "bos_token_id": 2,
+  "dtype": "bfloat16",
+  "eos_token_id": 1,
+  "final_logit_softcapping": null,
+  "head_dim": 256,
+  "hidden_activation": "gelu_pytorch_tanh",
+  "hidden_size": 640,
+  "initializer_range": 0.02,
+  "intermediate_size": 2048,
+  "layer_types": [
+    "sliding_attention",
+    "sliding_attention",
+    "sliding_attention",
+    "sliding_attention",
+    "sliding_attention",
+    "full_attention",
+    "sliding_attention",
+    "sliding_attention",
+    "sliding_attention",
+    "sliding_attention",
+    "sliding_attention",
+    "full_attention",
+    "sliding_attention",
+    "sliding_attention",
+    "sliding_attention",
+    "sliding_attention",
+    "sliding_attention",
+    "full_attention"
+  ],
+  "max_position_embeddings": 32768,
+  "model_type": "gemma3_text",
+  "num_attention_heads": 4,
+  "num_hidden_layers": 18,
+  "num_key_value_heads": 1,
+  "pad_token_id": 0,
+  "query_pre_attn_scalar": 256,
+  "rms_norm_eps": 1e-06,
+  "rope_parameters": {
+    "full_attention": {
+      "rope_theta": 1000000.0,
+      "rope_type": "default"
+    },
+    "sliding_attention": {
+      "rope_theta": 10000.0,
+      "rope_type": "default"
+    }
+  },
+  "sliding_window": 512,
+  "tie_word_embeddings": true,
+  "transformers_version": "5.8.1",
+  "use_bidirectional_attention": false,
+  "use_cache": true,
+  "vocab_size": 262144
+}
+, task_type='causal_lm', num_labels=None)
+[INFO:swift] model.generation_config: GenerationConfig {
+  "cache_implementation": "hybrid",
+  "do_sample": false,
+  "eos_token_id": 1,
+  "length_penalty": 1.0,
+  "max_new_tokens": 64,
+  "num_beams": 1,
+  "pad_token_id": 0,
+  "temperature": 1.0,
+  "top_k": 50,
+  "top_p": 1.0
+}
+
+[INFO:swift] default_system: None
+[INFO:swift] max_length: 4096
+[INFO:swift] response_prefix: ''
+[INFO:swift] agent_template: react_en
+[INFO:swift] Start time of running main: 2026-07-13 19:34:00.467133
+[INFO:swift] swift.__version__: 4.2.3
+Setting num_proc from 4 back to 1 for the train split to disable multiprocessing as it only contains one shard.
+Generating train split: 0 examples [00:00, ? examples/s]Generating train split: 219 examples [00:00, 3014.16 examples/s]
+Map (num_proc=4):   0%|          | 0/219 [00:00<?, ? examples/s]Map (num_proc=4):  25%|██▌       | 55/219 [00:00<00:00, 340.93 examples/s]Map (num_proc=4): 100%|██████████| 219/219 [00:00<00:00, 642.60 examples/s]
+Setting num_proc from 4 back to 1 for the train split to disable multiprocessing as it only contains one shard.
+Generating train split: 0 examples [00:00, ? examples/s]Generating train split: 17 examples [00:00, 611.97 examples/s]
+Map (num_proc=4):   0%|          | 0/17 [00:00<?, ? examples/s]Map (num_proc=4):  24%|██▎       | 4/17 [00:00<00:00, 29.80 examples/s]Map (num_proc=4): 100%|██████████| 17/17 [00:00<00:00, 60.99 examples/s]
+Map (num_proc=4):   0%|          | 0/219 [00:00<?, ? examples/s]Map (num_proc=4):  25%|██▌       | 55/219 [00:05<00:16, 10.20 examples/s]Map (num_proc=4):  50%|█████     | 110/219 [00:09<00:08, 12.19 examples/s]Map (num_proc=4):  75%|███████▌  | 165/219 [00:13<00:04, 13.02 examples/s]Map (num_proc=4): 100%|██████████| 219/219 [00:17<00:00, 13.31 examples/s]Map (num_proc=4): 100%|██████████| 219/219 [00:17<00:00, 12.65 examples/s]
+Map (num_proc=4):   0%|          | 0/17 [00:00<?, ? examples/s]Map (num_proc=4):  29%|██▉       | 5/17 [00:05<00:12,  1.05s/ examples]Map (num_proc=4):  53%|█████▎    | 9/17 [00:09<00:08,  1.00s/ examples]Map (num_proc=4):  76%|███████▋  | 13/17 [00:13<00:03,  1.00 examples/s]Map (num_proc=4): 100%|██████████| 17/17 [00:16<00:00,  1.01 examples/s]Map (num_proc=4): 100%|██████████| 17/17 [00:17<00:00,  1.01s/ examples]
+[INFO:swift] train_dataset: Dataset({
+    features: ['messages', 'lengths'],
+    num_rows: 219
+})
+[INFO:swift] val_dataset: Dataset({
+    features: ['messages', 'lengths'],
+    num_rows: 17
+})
+[INFO:swift] [INPUT_IDS] [2, 105, 2364, 107, 3048, 659, 614, 7710, 8839, 16406, 2844, 528, 3980, 236764, 71178, 3550, 17284, 236761, 17770, 496, 6492, 529, 496, 8839, 236789, 236751, 7426, 4820, 236764, 3938, 33015, 4133, 86823, 2354, 573, 506, 8839, 236761, 108, 41133, 236787, 107, 236772, 16887, 44917, 506, 86823, 236787, 496, 3161, 655, 5479, 3729, 236813, 110479, 5479, 236813, 3408, 607, 614, 8983, 532, 70067, 718, 236771, 236743, 236771, 236743, 236778, 236810, 236825, 236743, 236778, 236810, 236825, 3056, 2301, 57243, 236764, 951, 127532, 236764, 951, 3393, 75619, 236761, 107, 236772, 200102, 32452, 236764, 3004, 20129, 2351, 236743, 236770, 236825, 856, 236778, 236812, 236771, 236761, 6890, 496, 1944, 81272, 33448, 236761, 107, 236772, 13499, 47300, 236786, 28881, 528, 655, 88641, 26171, 1161, 3550, 164742, 1186, 44229, 2337, 11295, 655, 19045, 11295, 655, 181819, 11295, 655, 3020, 11295, 655, 75473, 11295, 655, 1257, 11295, 655, 236759, 236813, 769, 2301, 655, 3304, 11295, 8398, 68678, 236764, 653, 32524, 236761, 107, 236772, 22705, 7121, 1144, 506, 6492, 54945, 236761, 108, 211438, 580, 496, 3980, 2173, 12002, 236764, 1977, 496, 3538, 20274, 236772, 13503, 25079, 528, 1401, 24327, 98865, 51228, 236788, 236825, 5495, 38131, 236768, 531, 2583, 506, 1686, 14617, 8744, 236793, 580, 1903, 236764, 4988, 496, 7080, 20274, 19999, 18161, 528, 5268, 98865, 51228, 236771, 37553, 236810, 236776, 236812, 236768, 225015, 6733, 532, 2065, 236793, 4888, 506, 19999, 236764, 6210, 496, 3161, 8906, 85872, 18479, 1757, 528, 2173, 11910, 54679, 3418, 506, 6029, 236764, 6648, 44527, 1131, 496, 14658, 11519, 532, 23844, 531, 3600, 12763, 11005, 236793, 39137, 496, 1944, 5139, 10059, 657, 506, 1345, 529, 506, 18479, 1757, 528, 7804, 3730, 51228, 236771, 236800, 236825, 236819, 236776, 236770, 236768, 32848, 1133, 496, 81159, 13548, 653, 6953, 5349, 236764, 68118, 3892, 2948, 5603, 236793, 1138, 1156, 11202, 109232, 71286, 133140, 699, 600, 13548, 8797, 506, 7593, 1447, 9895, 528, 506, 1638, 3730, 236764, 106831, 607, 5149, 236764, 531, 3600, 19368, 27347, 653, 496, 6953, 53456, 44630, 236793, 2514, 784, 15965, 6648, 236764, 16085, 236764, 532, 20274, 607, 951, 47300, 653, 37676, 236764, 8585, 607, 496, 29186, 4996, 33239, 51228, 236771, 236811, 236770, 236832, 236778, 236776, 236768, 18161, 1186, 580, 506, 19999, 7377, 573, 43135, 9530, 2342, 506, 1695, 236761, 106, 107, 105, 4368, 107, 236820, 5479, 8983, 718, 2855, 1411, 2769, 236761, 236765, 236800, 236761, 2187, 236786, 236778, 236771, 236771, 236771, 236786, 5479, 236775, 70067, 718, 236771, 236743, 236771, 236743, 236778, 236810, 236825, 236743, 236778, 236810, 236825, 4001, 3020, 1123, 39058, 236819, 236819, 236819, 236819, 236775, 570, 39058, 236819, 236819, 236819, 236819, 236775, 2962, 718, 236770, 236819, 236819, 236819, 236828, 236775, 3558, 718, 236770, 236819, 236819, 236819, 236828, 236775, 5727, 6604, 92130, 213932, 3020, 1123, 718, 236778, 236828, 236775, 570, 718, 236778, 236828, 236775, 2962, 718, 236778, 236771, 236771, 236775, 3558, 718, 236778, 236771, 236771, 236775, 55485, 718, 236800, 236825, 236775, 5727, 6604, 236788, 236825, 5495, 38131, 213932, 2337, 513, 718, 236792, 236770, 236778, 236828, 236743, 236812, 236812, 565, 236770, 236810, 236771, 236743, 236810, 236828, 236743, 236770, 236832, 236778, 236743, 236825, 236778, 236743, 236770, 236828, 236828, 236743, 236825, 236812, 565, 236770, 236819, 236771, 236743, 236770, 236771, 236771, 236743, 236770, 236828, 236825, 236743, 236770, 236812, 236828, 236743, 236770, 236825, 236810, 236743, 236770, 236832, 236825, 565, 236770, 236810, 236778, 236743, 236770, 236819, 236812, 236743, 236770, 236800, 236828, 236743, 236778, 236771, 236812, 236743, 236770, 236778, 236828, 236743, 236778, 236770, 236771, 565, 236770, 236770, 236828, 236743, 236778, 236771, 236812, 236743, 236770, 236771, 236812, 236743, 236770, 236819, 236812, 236743, 236819, 236770, 236743, 236770, 236832, 236825, 565, 236832, 236771, 236743, 236770, 236812, 236828, 236743, 236825, 236825, 236743, 236770, 236771, 236771, 236743, 236825, 236828, 236743, 236825, 236812, 565, 236828, 236812, 236743, 236825, 236778, 236743, 236770, 236771, 236825, 236743, 236810, 236828, 236743, 236770, 236778, 236828, 236743, 236812, 236812, 1491, 236775, 5727, 6604, 236771, 37553, 236810, 236776, 236812, 236775, 15901, 6604, 236771, 236811, 236770, 236832, 236778, 236776, 236775, 15901, 236772, 2690, 718, 236812, 236775, 15901, 236772, 143533, 718, 979, 213932, 2337, 513, 718, 236792, 236832, 236828, 236743, 236770, 236800, 236778, 639, 236770, 236771, 236812, 236743, 236770, 236800, 236778, 639, 236770, 236770, 236778, 236743, 236770, 236770, 236778, 639, 236770, 236778, 236812, 236743, 236770, 236810, 236812, 639, 236770, 236800, 236812, 236743, 236770, 236778, 236778, 639, 236770, 236812, 236778, 236743, 236770, 236800, 236778, 639, 236770, 236832, 236778, 236743, 236770, 236800, 236778, 236775, 5727, 718, 9745, 236775, 15901, 6604, 92130, 236775, 15901, 236772, 2690, 718, 236832, 236775, 15901, 236772, 145327, 718, 979, 236775, 15901, 236772, 143533, 718, 979, 213932, 19045, 52457, 718, 236770, 236832, 236778, 236775, 3922, 718, 236770, 236800, 236778, 236775, 637, 718, 236819, 236775, 5727, 6604, 236771, 236800, 236825, 236819, 236776, 236770, 213932, 2337, 513, 718, 236792, 236770, 236828, 236778, 236743, 236770, 236778, 236778, 565, 236770, 236819, 236771, 236743, 236770, 236770, 236778, 236743, 236770, 236819, 236828, 236743, 236770, 236771, 236825, 236743, 236778, 236771, 236825, 236743, 236770, 236771, 236778, 236775, 5727, 718, 9745, 236775, 15901, 6604, 236771, 236800, 236825, 236819, 236776, 236770, 236775, 15901, 236772, 2690, 718, 236812, 236775, 15901, 236772, 145327, 718, 979, 213932, 2337, 513, 718, 236792, 236770, 236828, 236828, 236743, 236770, 236770, 236771, 565, 236770, 236819, 236825, 236743, 236770, 236771, 236771, 236743, 236778, 236771, 236812, 236743, 236819, 236778, 236743, 236778, 236770, 236812, 236743, 236828, 236825, 236775, 5727, 718, 9745, 236775, 15901, 6604, 236771, 236800, 236825, 236819, 236776, 236770, 236775, 15901, 236772, 2690, 718, 236778, 236761, 236810, 236775, 15901, 236772, 145327, 718, 979, 236775, 23131, 718, 236771, 236761, 236832, 236810, 111194, 5479, 236813, 106]
+[INFO:swift] [INPUT] <bos><start_of_turn>user
+You are an expert logo designer working in clean, scalable vector graphics. Given a description of a logo's visual elements, output ONE complete SVG document for the logo.
+
+Rules:
+- Output ONLY the SVG: a single <svg ...>...</svg> element with an xmlns and viewBox="0 0 256 256". No prose, no markdown, no code fences.
+- Compose centered, content roughly within 16..240. Use a small cohesive palette.
+- Put gradients/filters in <defs>; use vector primitives only (<path>, <circle>, <ellipse>, <rect>, <polygon>, <line>, <g>). No <image>, external refs, or scripts.
+- Draw exactly what the description specifies.
+
+Centered on a clean white canvas, place a soft rounded-square backdrop in very pale teal (#E6FFFB) to give the mark gentle depth; on top, draw a smooth rounded shield outline in deep teal (#0EA5A4) symbolizing protection and care; inside the shield, render a single continuous heartbeat pulse line in white cutting horizontally across the middle, flatlining into a sharp peak and valley to suggest vital signs; overlay a small solid circle at the end of the pulse line in bright blue (#0369A1) positioned like a webcam dot or signal node, implying live video connection; add two thin concentric arcs radiating from that dot toward the upper right corner in the same blue, thinning with distance, to suggest wireless connectivity or a signal broadcasting outward; keep all shapes flat, geometric, and rounded with no gradients or shadows, finished with a slim dark navy (#0F172A) outline only on the shield edge for crisp contrast against the background.<end_of_turn>
+<start_of_turn>model
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect x="-9999" y="-9999" width="19998" height="19998" fill="#FFFFFF"/><rect x="28" y="28" width="200" height="200" rx="36" fill="#E6FFFB"/><path d="M128 44 C150 58 172 62 188 64 C190 100 186 148 165 176 C152 194 138 204 128 210 C118 204 104 194 91 176 C70 148 66 100 68 64 C84 62 106 58 128 44 Z" fill="#0EA5A4" stroke="#0F172A" stroke-width="4" stroke-linejoin="round"/><path d="M78 132 L104 132 L112 112 L124 154 L134 122 L142 132 L172 132" fill="none" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="172" cy="132" r="9" fill="#0369A1"/><path d="M182 122 C190 112 198 106 206 102" fill="none" stroke="#0369A1" stroke-width="4" stroke-linecap="round"/><path d="M188 110 C196 100 204 92 214 86" fill="none" stroke="#0369A1" stroke-width="2.5" stroke-linecap="round" opacity="0.75"/></svg><end_of_turn>
+[INFO:swift] [LABELS_IDS] [-100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, 236820, 5479, 8983, 718, 2855, 1411, 2769, 236761, 236765, 236800, 236761, 2187, 236786, 236778, 236771, 236771, 236771, 236786, 5479, 236775, 70067, 718, 236771, 236743, 236771, 236743, 236778, 236810, 236825, 236743, 236778, 236810, 236825, 4001, 3020, 1123, 39058, 236819, 236819, 236819, 236819, 236775, 570, 39058, 236819, 236819, 236819, 236819, 236775, 2962, 718, 236770, 236819, 236819, 236819, 236828, 236775, 3558, 718, 236770, 236819, 236819, 236819, 236828, 236775, 5727, 6604, 92130, 213932, 3020, 1123, 718, 236778, 236828, 236775, 570, 718, 236778, 236828, 236775, 2962, 718, 236778, 236771, 236771, 236775, 3558, 718, 236778, 236771, 236771, 236775, 55485, 718, 236800, 236825, 236775, 5727, 6604, 236788, 236825, 5495, 38131, 213932, 2337, 513, 718, 236792, 236770, 236778, 236828, 236743, 236812, 236812, 565, 236770, 236810, 236771, 236743, 236810, 236828, 236743, 236770, 236832, 236778, 236743, 236825, 236778, 236743, 236770, 236828, 236828, 236743, 236825, 236812, 565, 236770, 236819, 236771, 236743, 236770, 236771, 236771, 236743, 236770, 236828, 236825, 236743, 236770, 236812, 236828, 236743, 236770, 236825, 236810, 236743, 236770, 236832, 236825, 565, 236770, 236810, 236778, 236743, 236770, 236819, 236812, 236743, 236770, 236800, 236828, 236743, 236778, 236771, 236812, 236743, 236770, 236778, 236828, 236743, 236778, 236770, 236771, 565, 236770, 236770, 236828, 236743, 236778, 236771, 236812, 236743, 236770, 236771, 236812, 236743, 236770, 236819, 236812, 236743, 236819, 236770, 236743, 236770, 236832, 236825, 565, 236832, 236771, 236743, 236770, 236812, 236828, 236743, 236825, 236825, 236743, 236770, 236771, 236771, 236743, 236825, 236828, 236743, 236825, 236812, 565, 236828, 236812, 236743, 236825, 236778, 236743, 236770, 236771, 236825, 236743, 236810, 236828, 236743, 236770, 236778, 236828, 236743, 236812, 236812, 1491, 236775, 5727, 6604, 236771, 37553, 236810, 236776, 236812, 236775, 15901, 6604, 236771, 236811, 236770, 236832, 236778, 236776, 236775, 15901, 236772, 2690, 718, 236812, 236775, 15901, 236772, 143533, 718, 979, 213932, 2337, 513, 718, 236792, 236832, 236828, 236743, 236770, 236800, 236778, 639, 236770, 236771, 236812, 236743, 236770, 236800, 236778, 639, 236770, 236770, 236778, 236743, 236770, 236770, 236778, 639, 236770, 236778, 236812, 236743, 236770, 236810, 236812, 639, 236770, 236800, 236812, 236743, 236770, 236778, 236778, 639, 236770, 236812, 236778, 236743, 236770, 236800, 236778, 639, 236770, 236832, 236778, 236743, 236770, 236800, 236778, 236775, 5727, 718, 9745, 236775, 15901, 6604, 92130, 236775, 15901, 236772, 2690, 718, 236832, 236775, 15901, 236772, 145327, 718, 979, 236775, 15901, 236772, 143533, 718, 979, 213932, 19045, 52457, 718, 236770, 236832, 236778, 236775, 3922, 718, 236770, 236800, 236778, 236775, 637, 718, 236819, 236775, 5727, 6604, 236771, 236800, 236825, 236819, 236776, 236770, 213932, 2337, 513, 718, 236792, 236770, 236828, 236778, 236743, 236770, 236778, 236778, 565, 236770, 236819, 236771, 236743, 236770, 236770, 236778, 236743, 236770, 236819, 236828, 236743, 236770, 236771, 236825, 236743, 236778, 236771, 236825, 236743, 236770, 236771, 236778, 236775, 5727, 718, 9745, 236775, 15901, 6604, 236771, 236800, 236825, 236819, 236776, 236770, 236775, 15901, 236772, 2690, 718, 236812, 236775, 15901, 236772, 145327, 718, 979, 213932, 2337, 513, 718, 236792, 236770, 236828, 236828, 236743, 236770, 236770, 236771, 565, 236770, 236819, 236825, 236743, 236770, 236771, 236771, 236743, 236778, 236771, 236812, 236743, 236819, 236778, 236743, 236778, 236770, 236812, 236743, 236828, 236825, 236775, 5727, 718, 9745, 236775, 15901, 6604, 236771, 236800, 236825, 236819, 236776, 236770, 236775, 15901, 236772, 2690, 718, 236778, 236761, 236810, 236775, 15901, 236772, 145327, 718, 979, 236775, 23131, 718, 236771, 236761, 236832, 236810, 111194, 5479, 236813, 106]
+[INFO:swift] [LABELS] [-100 * 368]<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect x="-9999" y="-9999" width="19998" height="19998" fill="#FFFFFF"/><rect x="28" y="28" width="200" height="200" rx="36" fill="#E6FFFB"/><path d="M128 44 C150 58 172 62 188 64 C190 100 186 148 165 176 C152 194 138 204 128 210 C118 204 104 194 91 176 C70 148 66 100 68 64 C84 62 106 58 128 44 Z" fill="#0EA5A4" stroke="#0F172A" stroke-width="4" stroke-linejoin="round"/><path d="M78 132 L104 132 L112 112 L124 154 L134 122 L142 132 L172 132" fill="none" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="172" cy="132" r="9" fill="#0369A1"/><path d="M182 122 C190 112 198 106 206 102" fill="none" stroke="#0369A1" stroke-width="4" stroke-linecap="round"/><path d="M188 110 C196 100 204 92 214 86" fill="none" stroke="#0369A1" stroke-width="2.5" stroke-linecap="round" opacity="0.75"/></svg><end_of_turn>
+[INFO:swift] Dataset Token Length: 1326.570776±506.843683, min=425.000000, max=3534.000000, size=219
+[INFO:swift] Dataset Token Length: 1396.588235±385.223397, min=919.000000, max=2171.000000, size=17
+[INFO:swift] The SftArguments will be saved in: /mnt/workspace/logo-svg-assignment/output/gemma3-270m-lora-r16/v0-20260713-193350/args.json
+[INFO:swift] lora_config: LoraConfig(task_type='CAUSAL_LM', peft_type=<PeftType.LORA: 'LORA'>, auto_mapping=None, peft_version='0.19.1', base_model_name_or_path='/mnt/workspace/.cache/modelscope/google/gemma-3-270m', revision=None, inference_mode=False, r=16, target_modules={'down_proj', 'q_proj', 'o_proj', 'up_proj', 'gate_proj', 'k_proj', 'v_proj'}, exclude_modules=None, lora_alpha=32, lora_dropout=0.05, fan_in_fan_out=False, bias='none', use_rslora=False, modules_to_save=[], init_lora_weights=True, layers_to_transform=None, layers_pattern=None, rank_pattern={}, alpha_pattern={}, megatron_config=None, megatron_core='megatron.core', trainable_token_indices=None, loftq_config={}, eva_config=None, corda_config=None, lora_ga_config=None, use_dora=False, alora_invocation_tokens=None, use_qalora=False, qalora_group_size=16, layer_replication=None, runtime_config=LoraRuntimeConfig(ephemeral_gpu_offload=False), lora_bias=False, target_parameters=None, use_bdlora=None, arrow_config=None, ensure_weight_tying=False, lora_dtype=None, lorap_lr_ratio=None, lorap_emb_lr=1e-06)
+[INFO:swift] model: PeftModelForCausalLM(
+  (base_model): LoraModel(
+    (model): Gemma3ForCausalLM(
+      (model): Gemma3TextModel(
+        (embed_tokens): Gemma3TextScaledWordEmbedding(262144, 640, padding_idx=0)
+        (layers): ModuleList(
+          (0-17): 18 x Gemma3DecoderLayer(
+            (self_attn): Gemma3Attention(
+              (q_proj): lora.Linear(
+                (base_layer): Linear(in_features=640, out_features=1024, bias=False)
+                (lora_dropout): ModuleDict(
+                  (default): Dropout(p=0.05, inplace=False)
+                )
+                (lora_A): ModuleDict(
+                  (default): Linear(in_features=640, out_features=16, bias=False)
+                )
+                (lora_B): ModuleDict(
+                  (default): Linear(in_features=16, out_features=1024, bias=False)
+                )
+                (lora_embedding_A): ParameterDict()
+                (lora_embedding_B): ParameterDict()
+                (lora_magnitude_vector): ModuleDict()
+              )
+              (k_proj): lora.Linear(
+                (base_layer): Linear(in_features=640, out_features=256, bias=False)
+                (lora_dropout): ModuleDict(
+                  (default): Dropout(p=0.05, inplace=False)
+                )
+                (lora_A): ModuleDict(
+                  (default): Linear(in_features=640, out_features=16, bias=False)
+                )
+                (lora_B): ModuleDict(
+                  (default): Linear(in_features=16, out_features=256, bias=False)
+                )
+                (lora_embedding_A): ParameterDict()
+                (lora_embedding_B): ParameterDict()
+                (lora_magnitude_vector): ModuleDict()
+              )
+              (v_proj): lora.Linear(
+                (base_layer): Linear(in_features=640, out_features=256, bias=False)
+                (lora_dropout): ModuleDict(
+                  (default): Dropout(p=0.05, inplace=False)
+                )
+                (lora_A): ModuleDict(
+                  (default): Linear(in_features=640, out_features=16, bias=False)
+                )
+                (lora_B): ModuleDict(
+                  (default): Linear(in_features=16, out_features=256, bias=False)
+                )
+                (lora_embedding_A): ParameterDict()
+                (lora_embedding_B): ParameterDict()
+                (lora_magnitude_vector): ModuleDict()
+              )
+              (o_proj): lora.Linear(
+                (base_layer): Linear(in_features=1024, out_features=640, bias=False)
+                (lora_dropout): ModuleDict(
+                  (default): Dropout(p=0.05, inplace=False)
+                )
+                (lora_A): ModuleDict(
+                  (default): Linear(in_features=1024, out_features=16, bias=False)
+                )
+                (lora_B): ModuleDict(
+                  (default): Linear(in_features=16, out_features=640, bias=False)
+                )
+                (lora_embedding_A): ParameterDict()
+                (lora_embedding_B): ParameterDict()
+                (lora_magnitude_vector): ModuleDict()
+              )
+              (q_norm): Gemma3RMSNorm((256,), eps=1e-06)
+              (k_norm): Gemma3RMSNorm((256,), eps=1e-06)
+            )
+            (mlp): Gemma3MLP(
+              (gate_proj): lora.Linear(
+                (base_layer): Linear(in_features=640, out_features=2048, bias=False)
+                (lora_dropout): ModuleDict(
+                  (default): Dropout(p=0.05, inplace=False)
+                )
+                (lora_A): ModuleDict(
+                  (default): Linear(in_features=640, out_features=16, bias=False)
+                )
+                (lora_B): ModuleDict(
+                  (default): Linear(in_features=16, out_features=2048, bias=False)
+                )
+                (lora_embedding_A): ParameterDict()
+                (lora_embedding_B): ParameterDict()
+                (lora_magnitude_vector): ModuleDict()
+              )
+              (up_proj): lora.Linear(
+                (base_layer): Linear(in_features=640, out_features=2048, bias=False)
+                (lora_dropout): ModuleDict(
+                  (default): Dropout(p=0.05, inplace=False)
+                )
+                (lora_A): ModuleDict(
+                  (default): Linear(in_features=640, out_features=16, bias=False)
+                )
+                (lora_B): ModuleDict(
+                  (default): Linear(in_features=16, out_features=2048, bias=False)
+                )
+                (lora_embedding_A): ParameterDict()
+                (lora_embedding_B): ParameterDict()
+                (lora_magnitude_vector): ModuleDict()
+              )
+              (down_proj): lora.Linear(
+                (base_layer): Linear(in_features=2048, out_features=640, bias=False)
+                (lora_dropout): ModuleDict(
+                  (default): Dropout(p=0.05, inplace=False)
+                )
+                (lora_A): ModuleDict(
+                  (default): Linear(in_features=2048, out_features=16, bias=False)
+                )
+                (lora_B): ModuleDict(
+                  (default): Linear(in_features=16, out_features=640, bias=False)
+                )
+                (lora_embedding_A): ParameterDict()
+                (lora_embedding_B): ParameterDict()
+                (lora_magnitude_vector): ModuleDict()
+              )
+              (act_fn): GELUTanh()
+            )
+            (input_layernorm): Gemma3RMSNorm((640,), eps=1e-06)
+            (post_attention_layernorm): Gemma3RMSNorm((640,), eps=1e-06)
+            (pre_feedforward_layernorm): Gemma3RMSNorm((640,), eps=1e-06)
+            (post_feedforward_layernorm): Gemma3RMSNorm((640,), eps=1e-06)
+          )
+        )
+        (norm): Gemma3RMSNorm((640,), eps=1e-06)
+        (rotary_emb): Gemma3RotaryEmbedding()
+      )
+      (lm_head): Linear(in_features=640, out_features=262144, bias=False)
+    )
+  )
+)
+[INFO:swift] model_parameter_info: PeftModelForCausalLM: 271.8952M Params (3.7970M Trainable [1.3965%]), 0.0005M Buffers.
+[INFO:swift] use_reentrant: True
+[INFO:swift] The logging file will be saved in: /mnt/workspace/logo-svg-assignment/output/gemma3-270m-lora-r16/v0-20260713-193350/logging.jsonl
+[transformers] The tokenizer has new PAD/BOS/EOS tokens that differ from the model config and generation config. The model config and generation config were aligned accordingly, being updated with the tokenizer's values. Updated tokens: {'bos_token_id': 2}.
+Train:   0%|          | 0/224 [00:00<?, ?it/s][INFO:swift] use_logits_to_keep: True
+Train:   0%|          | 1/224 [00:02<08:20,  2.25s/it]                                                      Train:   0%|          | 1/224 [00:02<08:20,  2.25s/it]Train:   0%|          | 1/224 [00:02<08:20,  2.25s/it]Train:   1%|          | 2/224 [00:04<08:06,  2.19s/it]Train:   1%|▏         | 3/224 [00:06<07:20,  1.99s/it]Train:   2%|▏         | 4/224 [00:08<07:13,  1.97s/it]Train:   2%|▏         | 5/224 [00:10<07:13,  1.98s/it]                                                      Train:   2%|▏         | 5/224 [00:10<07:13,  1.98s/it]Train:   2%|▏         | 5/224 [00:10<07:13,  1.98s/it]Train:   3%|▎         | 6/224 [00:12<07:17,  2.01s/it]Train:   3%|▎         | 7/224 [00:13<07:02,  1.95s/it]Train:   4%|▎         | 8/224 [00:15<07:03,  1.96s/it]Train:   4%|▍         | 9/224 [00:17<06:43,  1.88s/it]Train:   4%|▍         | 10/224 [00:20<07:15,  2.03s/it]                                                       Train:   4%|▍         | 10/224 [00:20<07:15,  2.03s/it]Train:   4%|▍         | 10/224 [00:20<07:15,  2.03s/it]Train:   5%|▍         | 11/224 [00:21<07:06,  2.00s/it]Train:   5%|▌         | 12/224 [00:23<07:05,  2.01s/it]Train:   6%|▌         | 13/224 [00:26<07:15,  2.07s/it]Train:   6%|▋         | 14/224 [00:28<07:27,  2.13s/it]Train:   7%|▋         | 15/224 [00:30<06:53,  1.98s/it]                                                       Train:   7%|▋         | 15/224 [00:30<06:53,  1.98s/it]Train:   7%|▋         | 15/224 [00:30<06:53,  1.98s/it]Train:   7%|▋         | 16/224 [00:32<06:50,  1.98s/it]Train:   8%|▊         | 17/224 [00:33<06:32,  1.90s/it]Train:   8%|▊         | 18/224 [00:36<07:16,  2.12s/it]Train:   8%|▊         | 19/224 [00:38<06:52,  2.01s/it]Train:   9%|▉         | 20/224 [00:40<07:03,  2.08s/it]                                                       Train:   9%|▉         | 20/224 [00:40<07:03,  2.08s/it]Train:   9%|▉         | 20/224 [00:40<07:03,  2.08s/it]Train:   9%|▉         | 21/224 [00:42<06:48,  2.01s/it]Train:  10%|▉         | 22/224 [00:44<06:31,  1.94s/it]Train:  10%|█         | 23/224 [00:45<06:20,  1.89s/it]Train:  11%|█         | 24/224 [00:47<06:24,  1.92s/it]Train:  11%|█         | 25/224 [00:49<06:25,  1.93s/it]                                                       Train:  11%|█         | 25/224 [00:49<06:25,  1.93s/it]Train:  11%|█         | 25/224 [00:49<06:25,  1.93s/it]Train:  12%|█▏        | 26/224 [00:51<06:19,  1.92s/it]Train:  12%|█▏        | 27/224 [00:53<06:10,  1.88s/it]Train:  12%|█▎        | 28/224 [00:54<04:55,  1.51s/it]{'loss': '1.321', 'grad_norm': '1.41', 'learning_rate': '1.667e-05', 'token_acc': '0.6548', 'epoch': '0.03653', 'global_step/max_steps': '1/224', 'elapsed_time': '2s', 'remaining_time': '8m 30s', 'memory(GiB)': '7.8', 'train_speed(s/it)': '2.286'}
+{'loss': '1.16', 'grad_norm': '0.9713', 'learning_rate': '8.333e-05', 'token_acc': '0.6772', 'epoch': '0.1826', 'global_step/max_steps': '5/224', 'elapsed_time': '10s', 'remaining_time': '7m 24s', 'memory(GiB)': '16.16', 'train_speed(s/it)': '2.026'}
+{'loss': '1.052', 'grad_norm': '0.9178', 'learning_rate': '0.0001667', 'token_acc': '0.686', 'epoch': '0.3653', 'global_step/max_steps': '10/224', 'elapsed_time': '20s', 'remaining_time': '7m 11s', 'memory(GiB)': '19.26', 'train_speed(s/it)': '2.013'}
+{'loss': '1.006', 'grad_norm': '1.215', 'learning_rate': '0.0001999', 'token_acc': '0.6997', 'epoch': '0.5479', 'global_step/max_steps': '15/224', 'elapsed_time': '30s', 'remaining_time': '6m 60s', 'memory(GiB)': '19.26', 'train_speed(s/it)': '2.009'}
+{'loss': '0.8949', 'grad_norm': '0.801', 'learning_rate': '0.0001993', 'token_acc': '0.7293', 'epoch': '0.7306', 'global_step/max_steps': '20/224', 'elapsed_time': '40s', 'remaining_time': '6m 52s', 'memory(GiB)': '19.26', 'train_speed(s/it)': '2.022'}
+{'loss': '0.8327', 'grad_norm': '0.544', 'learning_rate': '0.0001981', 'token_acc': '0.7346', 'epoch': '0.9132', 'global_step/max_steps': '25/224', 'elapsed_time': '50s', 'remaining_time': '6m 36s', 'memory(GiB)': '19.26', 'train_speed(s/it)': '1.992'}
+
+Val:   0%|          | 0/17 [00:00<?, ?it/s]Val:  18%|█▊        | 3/17 [00:00<00:00, 20.19it/s]Val:  35%|███▌      | 6/17 [00:00<00:00, 16.08it/s]Val:  47%|████▋     | 8/17 [00:00<00:00, 14.64it/s]Val:  59%|█████▉    | 10/17 [00:00<00:00, 12.12it/s]Val:  71%|███████   | 12/17 [00:00<00:00, 13.16it/s]Val:  82%|████████▏ | 14/17 [00:00<00:00, 13.76it/s]Val:  94%|█████████▍| 16/17 [00:01<00:00, 14.47it/s]                                                                                                           Val: 100%|██████████| 17/17 [00:01<00:00, 14.47it/s]Train:  12%|█▎        | 28/224 [00:55<04:55,  1.51s/it]Train:  12%|█▎        | 28/224 [00:55<04:55,  1.51s/it]Val: 100%|██████████| 17/17 [00:01<00:00, 13.37it/s]
+[INFO:swift] Saving model checkpoint to /mnt/workspace/logo-svg-assignment/output/gemma3-270m-lora-r16/v0-20260713-193350/checkpoint-28
+{'eval_loss': '0.8261', 'eval_runtime': '1.386', 'eval_samples_per_second': '12.27', 'eval_steps_per_second': '12.27', 'eval_token_acc': '0.7275', 'epoch': '1', 'global_step/max_steps': '28/224', 'elapsed_time': '55s', 'remaining_time': '6m 28s', 'memory(GiB)': '19.26', 'train_speed(s/it)': '1.982'}
+Train:  13%|█▎        | 29/224 [00:58<08:08,  2.50s/it]Train:  13%|█▎        | 30/224 [01:00<07:17,  2.26s/it]                                                       Train:  13%|█▎        | 30/224 [01:00<07:17,  2.26s/it]Train:  13%|█▎        | 30/224 [01:00<07:17,  2.26s/it]Train:  14%|█▍        | 31/224 [01:02<07:00,  2.18s/it]Train:  14%|█▍        | 32/224 [01:04<06:38,  2.07s/it]Train:  15%|█▍        | 33/224 [01:06<06:15,  1.97s/it]Train:  15%|█▌        | 34/224 [01:08<06:26,  2.03s/it]Train:  16%|█▌        | 35/224 [01:10<06:06,  1.94s/it]                                                       Train:  16%|█▌        | 35/224 [01:10<06:06,  1.94s/it]Train:  16%|█▌        | 35/224 [01:10<06:06,  1.94s/it]Train:  16%|█▌        | 36/224 [01:11<05:53,  1.88s/it]Train:  17%|█▋        | 37/224 [01:13<06:04,  1.95s/it]Train:  17%|█▋        | 38/224 [01:15<05:58,  1.93s/it]Train:  17%|█▋        | 39/224 [01:17<05:47,  1.88s/it]Train:  18%|█▊        | 40/224 [01:19<05:39,  1.85s/it]                                                       Train:  18%|█▊        | 40/224 [01:19<05:39,  1.85s/it]Train:  18%|█▊        | 40/224 [01:19<05:39,  1.85s/it]Train:  18%|█▊        | 41/224 [01:21<05:40,  1.86s/it]Train:  19%|█▉        | 42/224 [01:23<05:38,  1.86s/it]Train:  19%|█▉        | 43/224 [01:24<05:39,  1.87s/it]Train:  20%|█▉        | 44/224 [01:26<05:36,  1.87s/it]Train:  20%|██        | 45/224 [01:28<05:24,  1.82s/it]                                                       Train:  20%|██        | 45/224 [01:28<05:24,  1.82s/it]Train:  20%|██        | 45/224 [01:28<05:24,  1.82s/it]Train:  21%|██        | 46/224 [01:30<05:42,  1.92s/it]Train:  21%|██        | 47/224 [01:32<05:38,  1.91s/it]Train:  21%|██▏       | 48/224 [01:34<05:38,  1.92s/it]Train:  22%|██▏       | 49/224 [01:36<05:30,  1.89s/it]Train:  22%|██▏       | 50/224 [01:38<05:21,  1.85s/it]                                                       Train:  22%|██▏       | 50/224 [01:38<05:21,  1.85s/it]Train:  22%|██▏       | 50/224 [01:38<05:21,  1.85s/it]Train:  23%|██▎       | 51/224 [01:39<05:15,  1.82s/it]Train:  23%|██▎       | 52/224 [01:42<05:56,  2.07s/it]Train:  24%|██▎       | 53/224 [01:45<06:47,  2.39s/it]Train:  24%|██▍       | 54/224 [01:47<06:15,  2.21s/it]Train:  25%|██▍       | 55/224 [01:49<06:03,  2.15s/it]                                                       Train:  25%|██▍       | 55/224 [01:49<06:03,  2.15s/it]Train:  25%|██▍       | 55/224 [01:49<06:03,  2.15s/it]Train:  25%|██▌       | 56/224 [01:50<04:48,  1.72s/it]{'loss': '0.7795', 'grad_norm': '0.5543', 'learning_rate': '0.0001965', 'token_acc': '0.7404', 'epoch': '1.073', 'global_step/max_steps': '30/224', 'elapsed_time': '1m 1s', 'remaining_time': '6m 32s', 'memory(GiB)': '20.33', 'train_speed(s/it)': '2.022'}
+{'loss': '0.7905', 'grad_norm': '0.576', 'learning_rate': '0.0001943', 'token_acc': '0.7422', 'epoch': '1.256', 'global_step/max_steps': '35/224', 'elapsed_time': '1m 10s', 'remaining_time': '6m 19s', 'memory(GiB)': '20.33', 'train_speed(s/it)': '2.003'}
+{'loss': '0.7601', 'grad_norm': '0.6213', 'learning_rate': '0.0001915', 'token_acc': '0.7518', 'epoch': '1.438', 'global_step/max_steps': '40/224', 'elapsed_time': '1m 19s', 'remaining_time': '6m 5s', 'memory(GiB)': '20.33', 'train_speed(s/it)': '1.984'}
+{'loss': '0.7404', 'grad_norm': '0.633', 'learning_rate': '0.0001883', 'token_acc': '0.7543', 'epoch': '1.621', 'global_step/max_steps': '45/224', 'elapsed_time': '1m 29s', 'remaining_time': '5m 52s', 'memory(GiB)': '20.33', 'train_speed(s/it)': '1.968'}
+{'loss': '0.7285', 'grad_norm': '0.6186', 'learning_rate': '0.0001846', 'token_acc': '0.7647', 'epoch': '1.804', 'global_step/max_steps': '50/224', 'elapsed_time': '1m 38s', 'remaining_time': '5m 42s', 'memory(GiB)': '20.33', 'train_speed(s/it)': '1.963'}
+{'loss': '0.7253', 'grad_norm': '0.5358', 'learning_rate': '0.0001804', 'token_acc': '0.7575', 'epoch': '1.986', 'global_step/max_steps': '55/224', 'elapsed_time': '1m 49s', 'remaining_time': '5m 36s', 'memory(GiB)': '20.33', 'train_speed(s/it)': '1.991'}
+
+Val:   0%|          | 0/17 [00:00<?, ?it/s]Val:  18%|█▊        | 3/17 [00:00<00:00, 19.84it/s]Val:  29%|██▉       | 5/17 [00:00<00:00, 18.05it/s]Val:  41%|████      | 7/17 [00:00<00:00, 13.80it/s]Val:  53%|█████▎    | 9/17 [00:00<00:00, 13.05it/s]Val:  65%|██████▍   | 11/17 [00:00<00:00, 12.14it/s]Val:  76%|███████▋  | 13/17 [00:00<00:00, 13.37it/s]Val:  88%|████████▊ | 15/17 [00:01<00:00, 13.71it/s]Val: 100%|██████████| 17/17 [00:01<00:00, 13.24it/s]                                                                                                           Val: 100%|██████████| 17/17 [00:01<00:00, 13.24it/s]Train:  25%|██▌       | 56/224 [01:51<04:48,  1.72s/it]Train:  25%|██▌       | 56/224 [01:51<04:48,  1.72s/it]Val: 100%|██████████| 17/17 [00:01<00:00, 12.76it/s]
+[INFO:swift] Saving model checkpoint to /mnt/workspace/logo-svg-assignment/output/gemma3-270m-lora-r16/v0-20260713-193350/checkpoint-56
+{'eval_loss': '0.7384', 'eval_runtime': '1.393', 'eval_samples_per_second': '12.21', 'eval_steps_per_second': '12.21', 'eval_token_acc': '0.7493', 'epoch': '2', 'global_step/max_steps': '56/224', 'elapsed_time': '1m 52s', 'remaining_time': '5m 35s', 'memory(GiB)': '20.33', 'train_speed(s/it)': '1.993'}
+Train:  25%|██▌       | 57/224 [01:54<06:51,  2.46s/it]Train:  26%|██▌       | 58/224 [01:56<06:09,  2.23s/it]Train:  26%|██▋       | 59/224 [01:58<06:19,  2.30s/it]Train:  27%|██▋       | 60/224 [02:00<06:02,  2.21s/it]                                                       Train:  27%|██▋       | 60/224 [02:00<06:02,  2.21s/it]Train:  27%|██▋       | 60/224 [02:00<06:02,  2.21s/it]Train:  27%|██▋       | 61/224 [02:02<05:37,  2.07s/it]Train:  28%|██▊       | 62/224 [02:04<05:33,  2.06s/it]Train:  28%|██▊       | 63/224 [02:06<05:23,  2.01s/it]Train:  29%|██▊       | 64/224 [02:07<05:06,  1.92s/it]Train:  29%|██▉       | 65/224 [02:09<04:52,  1.84s/it]                                                       Train:  29%|██▉       | 65/224 [02:09<04:52,  1.84s/it]Train:  29%|██▉       | 65/224 [02:09<04:52,  1.84s/it]Train:  29%|██▉       | 66/224 [02:11<04:56,  1.87s/it]Train:  30%|██▉       | 67/224 [02:13<04:57,  1.90s/it]Train:  30%|███       | 68/224 [02:15<04:45,  1.83s/it]Train:  31%|███       | 69/224 [02:16<04:41,  1.81s/it]Train:  31%|███▏      | 70/224 [02:19<05:06,  1.99s/it]                                                       Train:  31%|███▏      | 70/224 [02:19<05:06,  1.99s/it]Train:  31%|███▏      | 70/224 [02:19<05:06,  1.99s/it]Train:  32%|███▏      | 71/224 [02:21<04:53,  1.92s/it]Train:  32%|███▏      | 72/224 [02:22<04:43,  1.87s/it]Train:  33%|███▎      | 73/224 [02:24<04:40,  1.86s/it]Train:  33%|███▎      | 74/224 [02:26<04:41,  1.87s/it]Train:  33%|███▎      | 75/224 [02:28<04:37,  1.86s/it]                                                       Train:  33%|███▎      | 75/224 [02:28<04:37,  1.86s/it]Train:  33%|███▎      | 75/224 [02:28<04:37,  1.86s/it]Train:  34%|███▍      | 76/224 [02:30<04:42,  1.91s/it]Train:  34%|███▍      | 77/224 [02:32<04:45,  1.94s/it]Train:  35%|███▍      | 78/224 [02:34<04:52,  2.01s/it]Train:  35%|███▌      | 79/224 [02:36<05:02,  2.08s/it]Train:  36%|███▌      | 80/224 [02:39<05:17,  2.20s/it]                                                       Train:  36%|███▌      | 80/224 [02:39<05:17,  2.20s/it]Train:  36%|███▌      | 80/224 [02:39<05:17,  2.20s/it]Train:  36%|███▌      | 81/224 [02:41<05:09,  2.17s/it]Train:  37%|███▋      | 82/224 [02:43<04:56,  2.09s/it]Train:  37%|███▋      | 83/224 [02:45<04:42,  2.00s/it]Train:  38%|███▊      | 84/224 [02:46<04:01,  1.72s/it]{'loss': '0.7009', 'grad_norm': '0.597', 'learning_rate': '0.0001757', 'token_acc': '0.7581', 'epoch': '2.146', 'global_step/max_steps': '60/224', 'elapsed_time': '2m 1s', 'remaining_time': '5m 29s', 'memory(GiB)': '20.46', 'train_speed(s/it)': '2.009'}
+{'loss': '0.6969', 'grad_norm': '0.6614', 'learning_rate': '0.0001707', 'token_acc': '0.7644', 'epoch': '2.329', 'global_step/max_steps': '65/224', 'elapsed_time': '2m 10s', 'remaining_time': '5m 17s', 'memory(GiB)': '20.46', 'train_speed(s/it)': '1.993'}
+{'loss': '0.7124', 'grad_norm': '0.532', 'learning_rate': '0.0001653', 'token_acc': '0.7619', 'epoch': '2.511', 'global_step/max_steps': '70/224', 'elapsed_time': '2m 19s', 'remaining_time': '5m 7s', 'memory(GiB)': '20.46', 'train_speed(s/it)': '1.99'}
+{'loss': '0.6792', 'grad_norm': '0.6198', 'learning_rate': '0.0001595', 'token_acc': '0.7702', 'epoch': '2.694', 'global_step/max_steps': '75/224', 'elapsed_time': '2m 28s', 'remaining_time': '4m 55s', 'memory(GiB)': '20.46', 'train_speed(s/it)': '1.979'}
+{'loss': '0.6513', 'grad_norm': '0.525', 'learning_rate': '0.0001534', 'token_acc': '0.7773', 'epoch': '2.877', 'global_step/max_steps': '80/224', 'elapsed_time': '2m 39s', 'remaining_time': '4m 47s', 'memory(GiB)': '20.46', 'train_speed(s/it)': '1.992'}
+
+Val:   0%|          | 0/17 [00:00<?, ?it/s]Val:  18%|█▊        | 3/17 [00:00<00:00, 20.22it/s]Val:  35%|███▌      | 6/17 [00:00<00:00, 15.88it/s]Val:  47%|████▋     | 8/17 [00:00<00:00, 14.45it/s]Val:  59%|█████▉    | 10/17 [00:00<00:00, 11.99it/s]Val:  71%|███████   | 12/17 [00:00<00:00, 13.03it/s]Val:  82%|████████▏ | 14/17 [00:01<00:00, 13.56it/s]Val:  94%|█████████▍| 16/17 [00:01<00:00, 14.29it/s]                                                                                                           Val: 100%|██████████| 17/17 [00:01<00:00, 14.29it/s]Train:  38%|███▊      | 84/224 [02:47<04:01,  1.72s/it]Train:  38%|███▊      | 84/224 [02:47<04:01,  1.72s/it]Val: 100%|██████████| 17/17 [00:01<00:00, 13.11it/s]
+[INFO:swift] Saving model checkpoint to /mnt/workspace/logo-svg-assignment/output/gemma3-270m-lora-r16/v0-20260713-193350/checkpoint-84
+{'eval_loss': '0.7014', 'eval_runtime': '1.393', 'eval_samples_per_second': '12.2', 'eval_steps_per_second': '12.2', 'eval_token_acc': '0.7603', 'epoch': '3', 'global_step/max_steps': '84/224', 'elapsed_time': '2m 48s', 'remaining_time': '4m 39s', 'memory(GiB)': '20.46', 'train_speed(s/it)': '1.995'}
+Train:  38%|███▊      | 85/224 [02:50<05:52,  2.54s/it]                                                       Train:  38%|███▊      | 85/224 [02:50<05:52,  2.54s/it]Train:  38%|███▊      | 85/224 [02:50<05:52,  2.54s/it]Train:  38%|███▊      | 86/224 [02:53<06:15,  2.72s/it]Train:  39%|███▉      | 87/224 [02:55<05:35,  2.45s/it]Train:  39%|███▉      | 88/224 [02:57<05:04,  2.24s/it]Train:  40%|███▉      | 89/224 [02:59<04:44,  2.11s/it]Train:  40%|████      | 90/224 [03:01<04:36,  2.06s/it]                                                       Train:  40%|████      | 90/224 [03:01<04:36,  2.06s/it]Train:  40%|████      | 90/224 [03:01<04:36,  2.06s/it]Train:  41%|████      | 91/224 [03:03<04:42,  2.12s/it]Train:  41%|████      | 92/224 [03:05<04:26,  2.02s/it]Train:  42%|████▏     | 93/224 [03:07<04:28,  2.05s/it]Train:  42%|████▏     | 94/224 [03:08<04:13,  1.95s/it]Train:  42%|████▏     | 95/224 [03:10<04:06,  1.91s/it]                                                       Train:  42%|████▏     | 95/224 [03:10<04:06,  1.91s/it]Train:  42%|████▏     | 95/224 [03:10<04:06,  1.91s/it]Train:  43%|████▎     | 96/224 [03:12<04:07,  1.93s/it]Train:  43%|████▎     | 97/224 [03:14<04:00,  1.90s/it]Train:  44%|████▍     | 98/224 [03:16<03:54,  1.86s/it]Train:  44%|████▍     | 99/224 [03:18<03:46,  1.82s/it]Train:  45%|████▍     | 100/224 [03:19<03:50,  1.86s/it]                                                        Train:  45%|████▍     | 100/224 [03:20<03:50,  1.86s/it]Train:  45%|████▍     | 100/224 [03:20<03:50,  1.86s/it]Train:  45%|████▌     | 101/224 [03:21<03:49,  1.87s/it]Train:  46%|████▌     | 102/224 [03:23<03:50,  1.89s/it]Train:  46%|████▌     | 103/224 [03:25<03:41,  1.83s/it]Train:  46%|████▋     | 104/224 [03:27<03:39,  1.83s/it]Train:  47%|████▋     | 105/224 [03:29<03:39,  1.85s/it]                                                        Train:  47%|████▋     | 105/224 [03:29<03:39,  1.85s/it]Train:  47%|████▋     | 105/224 [03:29<03:39,  1.85s/it]Train:  47%|████▋     | 106/224 [03:31<03:51,  1.96s/it]Train:  48%|████▊     | 107/224 [03:33<03:52,  1.99s/it]Train:  48%|████▊     | 108/224 [03:35<03:39,  1.89s/it]Train:  49%|████▊     | 109/224 [03:37<03:52,  2.02s/it]Train:  49%|████▉     | 110/224 [03:39<03:49,  2.01s/it]                                                        Train:  49%|████▉     | 110/224 [03:39<03:49,  2.01s/it]Train:  49%|████▉     | 110/224 [03:39<03:49,  2.01s/it]Train:  50%|████▉     | 111/224 [03:41<03:46,  2.01s/it]Train:  50%|█████     | 112/224 [03:42<03:00,  1.61s/it]{'loss': '0.6755', 'grad_norm': '0.631', 'learning_rate': '0.000147', 'token_acc': '0.7743', 'epoch': '3.037', 'global_step/max_steps': '85/224', 'elapsed_time': '2m 51s', 'remaining_time': '4m 39s', 'memory(GiB)': '20.46', 'train_speed(s/it)': '2.008'}
+{'loss': '0.6553', 'grad_norm': '0.5557', 'learning_rate': '0.0001403', 'token_acc': '0.7766', 'epoch': '3.219', 'global_step/max_steps': '90/224', 'elapsed_time': '3m 1s', 'remaining_time': '4m 30s', 'memory(GiB)': '20.46', 'train_speed(s/it)': '2.012'}
+{'loss': '0.6467', 'grad_norm': '0.5709', 'learning_rate': '0.0001334', 'token_acc': '0.7768', 'epoch': '3.402', 'global_step/max_steps': '95/224', 'elapsed_time': '3m 11s', 'remaining_time': '4m 19s', 'memory(GiB)': '20.46', 'train_speed(s/it)': '2.009'}
+{'loss': '0.6504', 'grad_norm': '0.6237', 'learning_rate': '0.0001264', 'token_acc': '0.7818', 'epoch': '3.584', 'global_step/max_steps': '100/224', 'elapsed_time': '3m 20s', 'remaining_time': '4m 8s', 'memory(GiB)': '20.46', 'train_speed(s/it)': '2'}
+{'loss': '0.6261', 'grad_norm': '0.598', 'learning_rate': '0.0001191', 'token_acc': '0.7877', 'epoch': '3.767', 'global_step/max_steps': '105/224', 'elapsed_time': '3m 29s', 'remaining_time': '3m 57s', 'memory(GiB)': '20.46', 'train_speed(s/it)': '1.993'}
+{'loss': '0.6531', 'grad_norm': '0.6181', 'learning_rate': '0.0001118', 'token_acc': '0.7796', 'epoch': '3.95', 'global_step/max_steps': '110/224', 'elapsed_time': '3m 40s', 'remaining_time': '3m 48s', 'memory(GiB)': '20.46', 'train_speed(s/it)': '1.996'}
+
+Val:   0%|          | 0/17 [00:00<?, ?it/s]Val:  18%|█▊        | 3/17 [00:00<00:00, 19.85it/s]Val:  29%|██▉       | 5/17 [00:00<00:00, 18.31it/s]Val:  41%|████      | 7/17 [00:00<00:00, 13.96it/s]Val:  53%|█████▎    | 9/17 [00:00<00:00, 13.14it/s]Val:  65%|██████▍   | 11/17 [00:00<00:00, 12.39it/s]Val:  76%|███████▋  | 13/17 [00:00<00:00, 13.44it/s]Val:  88%|████████▊ | 15/17 [00:01<00:00, 13.72it/s]Val: 100%|██████████| 17/17 [00:01<00:00, 13.30it/s]                                                                                                            Val: 100%|██████████| 17/17 [00:01<00:00, 13.30it/s]Train:  50%|█████     | 112/224 [03:43<03:00,  1.61s/it]Train:  50%|█████     | 112/224 [03:43<03:00,  1.61s/it]Val: 100%|██████████| 17/17 [00:01<00:00, 12.64it/s]
+[INFO:swift] Saving model checkpoint to /mnt/workspace/logo-svg-assignment/output/gemma3-270m-lora-r16/v0-20260713-193350/checkpoint-112
+{'eval_loss': '0.6808', 'eval_runtime': '1.389', 'eval_samples_per_second': '12.24', 'eval_steps_per_second': '12.24', 'eval_token_acc': '0.7649', 'epoch': '4', 'global_step/max_steps': '112/224', 'elapsed_time': '3m 44s', 'remaining_time': '3m 44s', 'memory(GiB)': '20.46', 'train_speed(s/it)': '1.997'}
+Train:  50%|█████     | 113/224 [03:46<04:24,  2.38s/it]Train:  51%|█████     | 114/224 [03:48<04:03,  2.21s/it]Train:  51%|█████▏    | 115/224 [03:50<04:03,  2.23s/it]                                                        Train:  51%|█████▏    | 115/224 [03:50<04:03,  2.23s/it]Train:  51%|█████▏    | 115/224 [03:50<04:03,  2.23s/it]Train:  52%|█████▏    | 116/224 [03:52<04:03,  2.25s/it]Train:  52%|█████▏    | 117/224 [03:55<04:08,  2.32s/it]Train:  53%|█████▎    | 118/224 [03:57<03:50,  2.17s/it]Train:  53%|█████▎    | 119/224 [03:58<03:32,  2.02s/it]Train:  54%|█████▎    | 120/224 [04:00<03:32,  2.04s/it]                                                        Train:  54%|█████▎    | 120/224 [04:00<03:32,  2.04s/it]Train:  54%|█████▎    | 120/224 [04:00<03:32,  2.04s/it]Train:  54%|█████▍    | 121/224 [04:02<03:22,  1.96s/it]Train:  54%|█████▍    | 122/224 [04:04<03:23,  2.00s/it]Train:  55%|█████▍    | 123/224 [04:06<03:19,  1.97s/it]Train:  55%|█████▌    | 124/224 [04:08<03:13,  1.94s/it]Train:  56%|█████▌    | 125/224 [04:10<03:15,  1.98s/it]                                                        Train:  56%|█████▌    | 125/224 [04:10<03:15,  1.98s/it]Train:  56%|█████▌    | 125/224 [04:10<03:15,  1.98s/it]Train:  56%|█████▋    | 126/224 [04:12<03:22,  2.06s/it]Train:  57%|█████▋    | 127/224 [04:14<03:09,  1.96s/it]Train:  57%|█████▋    | 128/224 [04:16<03:01,  1.89s/it]Train:  58%|█████▊    | 129/224 [04:18<02:59,  1.89s/it]Train:  58%|█████▊    | 130/224 [04:19<02:52,  1.84s/it]                                                        Train:  58%|█████▊    | 130/224 [04:19<02:52,  1.84s/it]Train:  58%|█████▊    | 130/224 [04:19<02:52,  1.84s/it]Train:  58%|█████▊    | 131/224 [04:22<03:00,  1.94s/it]Train:  59%|█████▉    | 132/224 [04:23<02:58,  1.94s/it]Train:  59%|█████▉    | 133/224 [04:26<03:06,  2.05s/it]Train:  60%|█████▉    | 134/224 [04:28<02:57,  1.97s/it]Train:  60%|██████    | 135/224 [04:29<02:53,  1.95s/it]                                                        Train:  60%|██████    | 135/224 [04:30<02:53,  1.95s/it]Train:  60%|██████    | 135/224 [04:30<02:53,  1.95s/it]Train:  61%|██████    | 136/224 [04:32<02:57,  2.02s/it]Train:  61%|██████    | 137/224 [04:33<02:49,  1.95s/it]Train:  62%|██████▏   | 138/224 [04:35<02:40,  1.86s/it]Train:  62%|██████▏   | 139/224 [04:37<02:43,  1.92s/it]Train:  62%|██████▎   | 140/224 [04:38<02:08,  1.53s/it]                                                        Train:  62%|██████▎   | 140/224 [04:38<02:08,  1.53s/it]Train:  62%|██████▎   | 140/224 [04:38<02:08,  1.53s/it]{'loss': '0.6101', 'grad_norm': '0.5596', 'learning_rate': '0.0001044', 'token_acc': '0.7849', 'epoch': '4.11', 'global_step/max_steps': '115/224', 'elapsed_time': '3m 51s', 'remaining_time': '3m 38s', 'memory(GiB)': '20.46', 'train_speed(s/it)': '2.005'}
+{'loss': '0.6472', 'grad_norm': '0.4681', 'learning_rate': '9.704e-05', 'token_acc': '0.779', 'epoch': '4.292', 'global_step/max_steps': '120/224', 'elapsed_time': '4m 1s', 'remaining_time': '3m 29s', 'memory(GiB)': '20.46', 'train_speed(s/it)': '2.007'}
+{'loss': '0.5899', 'grad_norm': '0.5018', 'learning_rate': '8.965e-05', 'token_acc': '0.7982', 'epoch': '4.475', 'global_step/max_steps': '125/224', 'elapsed_time': '4m 11s', 'remaining_time': '3m 18s', 'memory(GiB)': '20.46', 'train_speed(s/it)': '2.005'}
+{'loss': '0.6302', 'grad_norm': '1.355', 'learning_rate': '8.231e-05', 'token_acc': '0.7821', 'epoch': '4.658', 'global_step/max_steps': '130/224', 'elapsed_time': '4m 20s', 'remaining_time': '3m 8s', 'memory(GiB)': '20.46', 'train_speed(s/it)': '1.999'}
+{'loss': '0.6177', 'grad_norm': '0.4753', 'learning_rate': '7.507e-05', 'token_acc': '0.789', 'epoch': '4.84', 'global_step/max_steps': '135/224', 'elapsed_time': '4m 30s', 'remaining_time': '2m 58s', 'memory(GiB)': '20.46', 'train_speed(s/it)': '2'}
+{'loss': '0.6176', 'grad_norm': '1.081', 'learning_rate': '6.797e-05', 'token_acc': '0.7867', 'epoch': '5', 'global_step/max_steps': '140/224', 'elapsed_time': '4m 38s', 'remaining_time': '2m 47s', 'memory(GiB)': '20.46', 'train_speed(s/it)': '1.988'}
+
+Val:   0%|          | 0/17 [00:00<?, ?it/s]Val:  18%|█▊        | 3/17 [00:00<00:00, 20.22it/s]Val:  35%|███▌      | 6/17 [00:00<00:00, 15.96it/s]Val:  47%|████▋     | 8/17 [00:00<00:00, 14.52it/s]Val:  59%|█████▉    | 10/17 [00:00<00:00, 12.02it/s]Val:  71%|███████   | 12/17 [00:00<00:00, 13.15it/s]Val:  82%|████████▏ | 14/17 [00:01<00:00, 13.72it/s]Val:  94%|█████████▍| 16/17 [00:01<00:00, 14.40it/s]                                                                                                            Val: 100%|██████████| 17/17 [00:01<00:00, 14.40it/s]Train:  62%|██████▎   | 140/224 [04:39<02:08,  1.53s/it]Train:  62%|██████▎   | 140/224 [04:39<02:08,  1.53s/it]Val: 100%|██████████| 17/17 [00:01<00:00, 13.19it/s]
+[INFO:swift] Saving model checkpoint to /mnt/workspace/logo-svg-assignment/output/gemma3-270m-lora-r16/v0-20260713-193350/checkpoint-140
+{'eval_loss': '0.672', 'eval_runtime': '1.387', 'eval_samples_per_second': '12.26', 'eval_steps_per_second': '12.26', 'eval_token_acc': '0.7674', 'epoch': '5', 'global_step/max_steps': '140/224', 'elapsed_time': '4m 40s', 'remaining_time': '2m 48s', 'memory(GiB)': '20.46', 'train_speed(s/it)': '1.998'}
+Train:  63%|██████▎   | 141/224 [04:42<03:26,  2.49s/it]Train:  63%|██████▎   | 142/224 [04:44<03:06,  2.27s/it]Train:  64%|██████▍   | 143/224 [04:46<02:50,  2.11s/it]Train:  64%|██████▍   | 144/224 [04:48<02:46,  2.08s/it]Train:  65%|██████▍   | 145/224 [04:50<02:43,  2.07s/it]                                                        Train:  65%|██████▍   | 145/224 [04:50<02:43,  2.07s/it]Train:  65%|██████▍   | 145/224 [04:50<02:43,  2.07s/it]Train:  65%|██████▌   | 146/224 [04:52<02:40,  2.05s/it]Train:  66%|██████▌   | 147/224 [04:55<02:59,  2.33s/it]Train:  66%|██████▌   | 148/224 [04:57<02:44,  2.17s/it]Train:  67%|██████▋   | 149/224 [04:59<02:34,  2.06s/it]Train:  67%|██████▋   | 150/224 [05:01<02:36,  2.11s/it]                                                        Train:  67%|██████▋   | 150/224 [05:01<02:36,  2.11s/it]Train:  67%|██████▋   | 150/224 [05:01<02:36,  2.11s/it]Train:  67%|██████▋   | 151/224 [05:03<02:28,  2.04s/it]Train:  68%|██████▊   | 152/224 [05:05<02:27,  2.04s/it]Train:  68%|██████▊   | 153/224 [05:07<02:21,  2.00s/it]Train:  69%|██████▉   | 154/224 [05:09<02:17,  1.97s/it]Train:  69%|██████▉   | 155/224 [05:10<02:15,  1.96s/it]                                                        Train:  69%|██████▉   | 155/224 [05:11<02:15,  1.96s/it]Train:  69%|██████▉   | 155/224 [05:11<02:15,  1.96s/it]Train:  70%|██████▉   | 156/224 [05:12<02:11,  1.93s/it]Train:  70%|███████   | 157/224 [05:14<02:05,  1.88s/it]Train:  71%|███████   | 158/224 [05:16<02:03,  1.87s/it]Train:  71%|███████   | 159/224 [05:18<02:01,  1.87s/it]Train:  71%|███████▏  | 160/224 [05:20<02:12,  2.07s/it]                                                        Train:  71%|███████▏  | 160/224 [05:20<02:12,  2.07s/it]Train:  71%|███████▏  | 160/224 [05:20<02:12,  2.07s/it]Train:  72%|███████▏  | 161/224 [05:22<02:09,  2.06s/it]Train:  72%|███████▏  | 162/224 [05:24<02:02,  1.98s/it]Train:  73%|███████▎  | 163/224 [05:26<02:01,  1.99s/it]Train:  73%|███████▎  | 164/224 [05:28<01:54,  1.92s/it]Train:  74%|███████▎  | 165/224 [05:30<01:48,  1.85s/it]                                                        Train:  74%|███████▎  | 165/224 [05:30<01:48,  1.85s/it]Train:  74%|███████▎  | 165/224 [05:30<01:48,  1.85s/it]Train:  74%|███████▍  | 166/224 [05:32<01:48,  1.86s/it]Train:  75%|███████▍  | 167/224 [05:33<01:44,  1.84s/it]Train:  75%|███████▌  | 168/224 [05:34<01:24,  1.51s/it]{'loss': '0.6083', 'grad_norm': '0.5564', 'learning_rate': '6.105e-05', 'token_acc': '0.7888', 'epoch': '5.183', 'global_step/max_steps': '145/224', 'elapsed_time': '4m 51s', 'remaining_time': '2m 38s', 'memory(GiB)': '20.46', 'train_speed(s/it)': '2.004'}
+{'loss': '0.5985', 'grad_norm': '0.5638', 'learning_rate': '5.434e-05', 'token_acc': '0.7944', 'epoch': '5.365', 'global_step/max_steps': '150/224', 'elapsed_time': '5m 1s', 'remaining_time': '2m 29s', 'memory(GiB)': '21.16', 'train_speed(s/it)': '2.009'}
+{'loss': '0.6027', 'grad_norm': '0.5269', 'learning_rate': '4.788e-05', 'token_acc': '0.793', 'epoch': '5.548', 'global_step/max_steps': '155/224', 'elapsed_time': '5m 11s', 'remaining_time': '2m 18s', 'memory(GiB)': '21.16', 'train_speed(s/it)': '2.007'}
+{'loss': '0.5855', 'grad_norm': '0.4467', 'learning_rate': '4.17e-05', 'token_acc': '0.7996', 'epoch': '5.731', 'global_step/max_steps': '160/224', 'elapsed_time': '5m 21s', 'remaining_time': '2m 8s', 'memory(GiB)': '21.16', 'train_speed(s/it)': '2.006'}
+{'loss': '0.6175', 'grad_norm': '0.6665', 'learning_rate': '3.585e-05', 'token_acc': '0.7851', 'epoch': '5.913', 'global_step/max_steps': '165/224', 'elapsed_time': '5m 30s', 'remaining_time': '1m 58s', 'memory(GiB)': '21.16', 'train_speed(s/it)': '2.001'}
+
+Val:   0%|          | 0/17 [00:00<?, ?it/s]Val:  18%|█▊        | 3/17 [00:00<00:00, 20.19it/s]Val:  35%|███▌      | 6/17 [00:00<00:00, 15.90it/s]Val:  47%|████▋     | 8/17 [00:00<00:00, 14.56it/s]Val:  59%|█████▉    | 10/17 [00:00<00:00, 12.00it/s]Val:  71%|███████   | 12/17 [00:00<00:00, 12.84it/s]Val:  82%|████████▏ | 14/17 [00:01<00:00, 13.27it/s]Val:  94%|█████████▍| 16/17 [00:01<00:00, 13.75it/s]                                                                                                            Val: 100%|██████████| 17/17 [00:01<00:00, 13.75it/s]Train:  75%|███████▌  | 168/224 [05:36<01:24,  1.51s/it]Train:  75%|███████▌  | 168/224 [05:36<01:24,  1.51s/it]Val: 100%|██████████| 17/17 [00:01<00:00, 12.21it/s]
+[INFO:swift] Saving model checkpoint to /mnt/workspace/logo-svg-assignment/output/gemma3-270m-lora-r16/v0-20260713-193350/checkpoint-168
+{'eval_loss': '0.669', 'eval_runtime': '1.415', 'eval_samples_per_second': '12.01', 'eval_steps_per_second': '12.01', 'eval_token_acc': '0.7703', 'epoch': '6', 'global_step/max_steps': '168/224', 'elapsed_time': '5m 36s', 'remaining_time': '1m 52s', 'memory(GiB)': '21.16', 'train_speed(s/it)': '2'}
+Train:  75%|███████▌  | 169/224 [05:39<02:20,  2.55s/it]Train:  76%|███████▌  | 170/224 [05:41<02:12,  2.45s/it]                                                        Train:  76%|███████▌  | 170/224 [05:41<02:12,  2.45s/it]Train:  76%|███████▌  | 170/224 [05:41<02:12,  2.45s/it]Train:  76%|███████▋  | 171/224 [05:43<02:03,  2.33s/it]Train:  77%|███████▋  | 172/224 [05:45<01:53,  2.18s/it]Train:  77%|███████▋  | 173/224 [05:47<01:46,  2.09s/it]Train:  78%|███████▊  | 174/224 [05:49<01:46,  2.13s/it]Train:  78%|███████▊  | 175/224 [05:51<01:42,  2.08s/it]                                                        Train:  78%|███████▊  | 175/224 [05:51<01:42,  2.08s/it]Train:  78%|███████▊  | 175/224 [05:51<01:42,  2.08s/it]Train:  79%|███████▊  | 176/224 [05:53<01:38,  2.05s/it]Train:  79%|███████▉  | 177/224 [05:55<01:38,  2.09s/it]Train:  79%|███████▉  | 178/224 [05:57<01:30,  1.97s/it]Train:  80%|███████▉  | 179/224 [05:59<01:31,  2.04s/it]Train:  80%|████████  | 180/224 [06:01<01:29,  2.03s/it]                                                        Train:  80%|████████  | 180/224 [06:01<01:29,  2.03s/it]Train:  80%|████████  | 180/224 [06:01<01:29,  2.03s/it]Train:  81%|████████  | 181/224 [06:03<01:29,  2.08s/it]Train:  81%|████████▏ | 182/224 [06:05<01:22,  1.96s/it]Train:  82%|████████▏ | 183/224 [06:07<01:20,  1.96s/it]Train:  82%|████████▏ | 184/224 [06:09<01:17,  1.94s/it]Train:  83%|████████▎ | 185/224 [06:11<01:13,  1.89s/it]                                                        Train:  83%|████████▎ | 185/224 [06:11<01:13,  1.89s/it]Train:  83%|████████▎ | 185/224 [06:11<01:13,  1.89s/it]Train:  83%|████████▎ | 186/224 [06:13<01:16,  2.02s/it]Train:  83%|████████▎ | 187/224 [06:15<01:13,  2.00s/it]Train:  84%|████████▍ | 188/224 [06:17<01:08,  1.91s/it]Train:  84%|████████▍ | 189/224 [06:18<01:05,  1.86s/it]Train:  85%|████████▍ | 190/224 [06:20<01:02,  1.84s/it]                                                        Train:  85%|████████▍ | 190/224 [06:20<01:02,  1.84s/it]Train:  85%|████████▍ | 190/224 [06:20<01:02,  1.84s/it]Train:  85%|████████▌ | 191/224 [06:22<01:02,  1.88s/it]Train:  86%|████████▌ | 192/224 [06:24<00:58,  1.83s/it]Train:  86%|████████▌ | 193/224 [06:26<00:56,  1.81s/it]Train:  87%|████████▋ | 194/224 [06:28<00:56,  1.89s/it]Train:  87%|████████▋ | 195/224 [06:30<00:54,  1.86s/it]                                                        Train:  87%|████████▋ | 195/224 [06:30<00:54,  1.86s/it]Train:  87%|████████▋ | 195/224 [06:30<00:54,  1.86s/it]Train:  88%|████████▊ | 196/224 [06:30<00:42,  1.51s/it]{'loss': '0.602', 'grad_norm': '0.5457', 'learning_rate': '3.034e-05', 'token_acc': '0.7943', 'epoch': '6.073', 'global_step/max_steps': '170/224', 'elapsed_time': '5m 42s', 'remaining_time': '1m 49s', 'memory(GiB)': '21.16', 'train_speed(s/it)': '2.011'}
+{'loss': '0.5806', 'grad_norm': '0.612', 'learning_rate': '2.522e-05', 'token_acc': '0.7982', 'epoch': '6.256', 'global_step/max_steps': '175/224', 'elapsed_time': '5m 52s', 'remaining_time': '1m 39s', 'memory(GiB)': '21.16', 'train_speed(s/it)': '2.01'}
+{'loss': '0.5847', 'grad_norm': '0.5664', 'learning_rate': '2.051e-05', 'token_acc': '0.7976', 'epoch': '6.438', 'global_step/max_steps': '180/224', 'elapsed_time': '6m 2s', 'remaining_time': '1m 28s', 'memory(GiB)': '21.16', 'train_speed(s/it)': '2.01'}
+{'loss': '0.6098', 'grad_norm': '0.5841', 'learning_rate': '1.624e-05', 'token_acc': '0.7897', 'epoch': '6.621', 'global_step/max_steps': '185/224', 'elapsed_time': '6m 11s', 'remaining_time': '1m 18s', 'memory(GiB)': '21.16', 'train_speed(s/it)': '2.007'}
+{'loss': '0.5972', 'grad_norm': '0.5534', 'learning_rate': '1.243e-05', 'token_acc': '0.7945', 'epoch': '6.804', 'global_step/max_steps': '190/224', 'elapsed_time': '6m 21s', 'remaining_time': '1m 8s', 'memory(GiB)': '21.16', 'train_speed(s/it)': '2.004'}
+{'loss': '0.5845', 'grad_norm': '0.6539', 'learning_rate': '9.09e-06', 'token_acc': '0.7973', 'epoch': '6.986', 'global_step/max_steps': '195/224', 'elapsed_time': '6m 30s', 'remaining_time': '58s', 'memory(GiB)': '21.16', 'train_speed(s/it)': '2.001'}
+
+Val:   0%|          | 0/17 [00:00<?, ?it/s]Val:  18%|█▊        | 3/17 [00:00<00:00, 20.30it/s]Val:  35%|███▌      | 6/17 [00:00<00:00, 15.97it/s]Val:  47%|████▋     | 8/17 [00:00<00:00, 14.60it/s]Val:  59%|█████▉    | 10/17 [00:00<00:00, 12.08it/s]Val:  71%|███████   | 12/17 [00:00<00:00, 12.86it/s]Val:  82%|████████▏ | 14/17 [00:01<00:00, 13.53it/s]Val:  94%|█████████▍| 16/17 [00:01<00:00, 14.31it/s]                                                                                                            Val: 100%|██████████| 17/17 [00:01<00:00, 14.31it/s]Train:  88%|████████▊ | 196/224 [06:32<00:42,  1.51s/it]Train:  88%|████████▊ | 196/224 [06:32<00:42,  1.51s/it]Val: 100%|██████████| 17/17 [00:01<00:00, 12.85it/s]
+[INFO:swift] Saving model checkpoint to /mnt/workspace/logo-svg-assignment/output/gemma3-270m-lora-r16/v0-20260713-193350/checkpoint-196
+{'eval_loss': '0.668', 'eval_runtime': '1.4', 'eval_samples_per_second': '12.14', 'eval_steps_per_second': '12.14', 'eval_token_acc': '0.772', 'epoch': '7', 'global_step/max_steps': '196/224', 'elapsed_time': '6m 32s', 'remaining_time': '56s', 'memory(GiB)': '21.16', 'train_speed(s/it)': '2.001'}
+Train:  88%|████████▊ | 197/224 [06:35<01:02,  2.33s/it]Train:  88%|████████▊ | 198/224 [06:36<00:55,  2.15s/it]Train:  89%|████████▉ | 199/224 [06:39<00:54,  2.20s/it]Train:  89%|████████▉ | 200/224 [06:40<00:50,  2.10s/it]                                                        Train:  89%|████████▉ | 200/224 [06:41<00:50,  2.10s/it]Train:  89%|████████▉ | 200/224 [06:41<00:50,  2.10s/it]Train:  90%|████████▉ | 201/224 [06:42<00:47,  2.06s/it]Train:  90%|█████████ | 202/224 [06:44<00:43,  1.99s/it]Train:  91%|█████████ | 203/224 [06:47<00:44,  2.11s/it]Train:  91%|█████████ | 204/224 [06:49<00:42,  2.15s/it]Train:  92%|█████████▏| 205/224 [06:51<00:39,  2.07s/it]                                                        Train:  92%|█████████▏| 205/224 [06:51<00:39,  2.07s/it]Train:  92%|█████████▏| 205/224 [06:51<00:39,  2.07s/it]Train:  92%|█████████▏| 206/224 [06:53<00:40,  2.22s/it]Train:  92%|█████████▏| 207/224 [06:55<00:35,  2.11s/it]Train:  93%|█████████▎| 208/224 [06:57<00:32,  2.02s/it]Train:  93%|█████████▎| 209/224 [06:59<00:30,  2.06s/it]Train:  94%|█████████▍| 210/224 [07:01<00:27,  1.95s/it]                                                        Train:  94%|█████████▍| 210/224 [07:01<00:27,  1.95s/it]Train:  94%|█████████▍| 210/224 [07:01<00:27,  1.95s/it]Train:  94%|█████████▍| 211/224 [07:03<00:25,  1.93s/it]Train:  95%|█████████▍| 212/224 [07:05<00:22,  1.90s/it]Train:  95%|█████████▌| 213/224 [07:07<00:21,  1.96s/it]Train:  96%|█████████▌| 214/224 [07:08<00:19,  1.92s/it]Train:  96%|█████████▌| 215/224 [07:11<00:17,  1.98s/it]                                                        Train:  96%|█████████▌| 215/224 [07:11<00:17,  1.98s/it]Train:  96%|█████████▌| 215/224 [07:11<00:17,  1.98s/it]Train:  96%|█████████▋| 216/224 [07:13<00:15,  1.99s/it]Train:  97%|█████████▋| 217/224 [07:15<00:13,  1.97s/it]Train:  97%|█████████▋| 218/224 [07:16<00:11,  1.89s/it]Train:  98%|█████████▊| 219/224 [07:18<00:09,  1.87s/it]Train:  98%|█████████▊| 220/224 [07:20<00:07,  1.90s/it]                                                        Train:  98%|█████████▊| 220/224 [07:20<00:07,  1.90s/it]Train:  98%|█████████▊| 220/224 [07:20<00:07,  1.90s/it]Train:  99%|█████████▊| 221/224 [07:22<00:05,  1.93s/it]Train:  99%|█████████▉| 222/224 [07:24<00:03,  1.92s/it]Train: 100%|█████████▉| 223/224 [07:26<00:01,  1.97s/it]Train: 100%|██████████| 224/224 [07:27<00:00,  1.57s/it]{'loss': '0.5882', 'grad_norm': '0.5541', 'learning_rate': '6.26e-06', 'token_acc': '0.7911', 'epoch': '7.146', 'global_step/max_steps': '200/224', 'elapsed_time': '6m 41s', 'remaining_time': '48s', 'memory(GiB)': '21.16', 'train_speed(s/it)': '2.005'}
+{'loss': '0.5956', 'grad_norm': '0.5948', 'learning_rate': '3.94e-06', 'token_acc': '0.7944', 'epoch': '7.329', 'global_step/max_steps': '205/224', 'elapsed_time': '6m 51s', 'remaining_time': '38s', 'memory(GiB)': '21.16', 'train_speed(s/it)': '2.006'}
+{'loss': '0.5743', 'grad_norm': '0.688', 'learning_rate': '2.14e-06', 'token_acc': '0.799', 'epoch': '7.511', 'global_step/max_steps': '210/224', 'elapsed_time': '7m 1s', 'remaining_time': '28s', 'memory(GiB)': '21.76', 'train_speed(s/it)': '2.006'}
+{'loss': '0.5757', 'grad_norm': '0.5184', 'learning_rate': '8.9e-07', 'token_acc': '0.8037', 'epoch': '7.694', 'global_step/max_steps': '215/224', 'elapsed_time': '7m 11s', 'remaining_time': '18s', 'memory(GiB)': '21.76', 'train_speed(s/it)': '2.005'}
+{'loss': '0.5746', 'grad_norm': '0.6429', 'learning_rate': '1.8e-07', 'token_acc': '0.8038', 'epoch': '7.877', 'global_step/max_steps': '220/224', 'elapsed_time': '7m 21s', 'remaining_time': '8s', 'memory(GiB)': '21.76', 'train_speed(s/it)': '2.003'}
+
+Val:   0%|          | 0/17 [00:00<?, ?it/s]Val:  18%|█▊        | 3/17 [00:00<00:00, 20.18it/s]Val:  35%|███▌      | 6/17 [00:00<00:00, 15.75it/s]Val:  47%|████▋     | 8/17 [00:00<00:00, 14.46it/s]Val:  59%|█████▉    | 10/17 [00:00<00:00, 12.00it/s]Val:  71%|███████   | 12/17 [00:00<00:00, 13.20it/s]Val:  82%|████████▏ | 14/17 [00:00<00:00, 13.85it/s]Val:  94%|█████████▍| 16/17 [00:01<00:00, 14.59it/s]                                                                                                            Val: 100%|██████████| 17/17 [00:01<00:00, 14.59it/s]Train: 100%|██████████| 224/224 [07:28<00:00,  1.57s/it]Train: 100%|██████████| 224/224 [07:28<00:00,  1.57s/it]Val: 100%|██████████| 17/17 [00:01<00:00, 13.28it/s]
+[INFO:swift] Saving model checkpoint to /mnt/workspace/logo-svg-assignment/output/gemma3-270m-lora-r16/v0-20260713-193350/checkpoint-224
+                                                        Train: 100%|██████████| 224/224 [07:29<00:00,  1.57s/it]Train: 100%|██████████| 224/224 [07:29<00:00,  1.57s/it]Train: 100%|██████████| 224/224 [07:29<00:00,  2.01s/it]
+[INFO:swift] last_model_checkpoint: /mnt/workspace/logo-svg-assignment/output/gemma3-270m-lora-r16/v0-20260713-193350/checkpoint-224
+[INFO:swift] best_model_checkpoint: /mnt/workspace/logo-svg-assignment/output/gemma3-270m-lora-r16/v0-20260713-193350/checkpoint-224
+[INFO:swift] images_dir: /mnt/workspace/logo-svg-assignment/output/gemma3-270m-lora-r16/v0-20260713-193350/images
+[INFO:swift] End time of running main: 2026-07-13 19:42:18.762157
+{'eval_loss': '0.6673', 'eval_runtime': '1.387', 'eval_samples_per_second': '12.25', 'eval_steps_per_second': '12.25', 'eval_token_acc': '0.7726', 'epoch': '8', 'global_step/max_steps': '224/224', 'elapsed_time': '7m 29s', 'remaining_time': '0s', 'memory(GiB)': '21.76', 'train_speed(s/it)': '2.003'}
+{'train_runtime': '449.6', 'train_samples_per_second': '3.897', 'train_steps_per_second': '0.498', 'train_loss': '0.6815', 'epoch': '8', 'global_step/max_steps': '224/224', 'elapsed_time': '7m 30s', 'remaining_time': '0s', 'memory(GiB)': '21.76', 'train_speed(s/it)': '2.007'}

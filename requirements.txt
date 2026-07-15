@@ -1,0 +1,10 @@
+# AI Studio normally already provides a CUDA-compatible torch build.  Do not
+# replace it blindly; install torch separately only if the notebook lacks it.
+ms-swift>=4.0,<5
+modelscope>=1.23
+transformers>=4.49
+peft>=0.11,<0.20
+accelerate>=1.2
+safetensors>=0.4
+pytest>=8
+PyYAML>=6

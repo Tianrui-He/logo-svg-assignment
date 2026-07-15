@@ -1,0 +1,168 @@
+{
+  "reference_count": 236,
+  "reference_total": {
+    "min": 90.158,
+    "mean": 98.12252966101696,
+    "median": 98.845,
+    "max": 100.0
+  },
+  "reference_breakdown_mean": {
+    "validity": 30.0,
+    "geometry": 19.999364406779662,
+    "composition": 14.58528813559322,
+    "prompt_fidelity": 23.793957627118644,
+    "anti_degeneration": 9.743805084745762
+  },
+  "reference_issue_counts": {
+    "high_exact_repetition": 1,
+    "dangling_reference": 1
+  },
+  "negative_controls": {
+    "malformed": {
+      "total": 2.0,
+      "normalized": 0.02,
+      "breakdown": {
+        "validity": 2.0,
+        "geometry": 0.0,
+        "composition": 0.0,
+        "prompt_fidelity": 0.0,
+        "anti_degeneration": 0.0
+      },
+      "issues": [
+        "extra_text_or_incomplete_svg",
+        "xml_parse_error"
+      ],
+      "metrics": {
+        "raw_characters": 35,
+        "parse_error": "no element found: line 1, column 35"
+      }
+    },
+    "empty": {
+      "total": 42.15,
+      "normalized": 0.4215,
+      "breakdown": {
+        "validity": 30.0,
+        "geometry": 3.0,
+        "composition": 0.0,
+        "prompt_fidelity": 7.15,
+        "anti_degeneration": 2.0
+      },
+      "issues": [
+        "no_visible_elements",
+        "trivial_or_background_only"
+      ],
+      "metrics": {
+        "raw_characters": 68,
+        "candidate_characters": 68,
+        "visible_elements": 0,
+        "element_tags": {
+          "svg": 1
+        },
+        "palette_size": 0,
+        "degenerate_elements": 0,
+        "coordinates_checked": 0,
+        "coordinates_outlying": 0,
+        "visible_ratio": 0.0,
+        "exact_repetition_ratio": 0.0,
+        "explicit_colours_requested": 0,
+        "named_colours_requested": [
+          "blue",
+          "red"
+        ],
+        "explicit_colour_coverage": null,
+        "named_colour_coverage": 0.0,
+        "features_requested": [],
+        "features_matched": [],
+        "gradient_requested": false,
+        "gradient_free_requested": false
+      }
+    },
+    "background_only": {
+      "total": 59.817,
+      "normalized": 0.59817,
+      "breakdown": {
+        "validity": 30.0,
+        "geometry": 12.0,
+        "composition": 7.167,
+        "prompt_fidelity": 7.15,
+        "anti_degeneration": 3.5
+      },
+      "issues": [
+        "trivial_or_background_only"
+      ],
+      "metrics": {
+        "raw_characters": 112,
+        "candidate_characters": 112,
+        "visible_elements": 1,
+        "element_tags": {
+          "rect": 1,
+          "svg": 1
+        },
+        "palette_size": 1,
+        "degenerate_elements": 0,
+        "coordinates_checked": 0,
+        "coordinates_outlying": 0,
+        "visible_ratio": 1.0,
+        "exact_repetition_ratio": 1.0,
+        "explicit_colours_requested": 0,
+        "named_colours_requested": [
+          "blue",
+          "red"
+        ],
+        "explicit_colour_coverage": null,
+        "named_colour_coverage": 0,
+        "features_requested": [],
+        "features_matched": [],
+        "gradient_requested": false,
+        "gradient_free_requested": false
+      }
+    },
+    "unsafe_script": {
+      "total": 20.0,
+      "normalized": 0.2,
+      "breakdown": {
+        "validity": 27.0,
+        "geometry": 20.0,
+        "composition": 7.167,
+        "prompt_fidelity": 23.845,
+        "anti_degeneration": 5.0
+      },
+      "issues": [
+        "safety_cap_applied",
+        "trivial_or_background_only",
+        "unknown_tags:script",
+        "unsafe_tag:script"
+      ],
+      "metrics": {
+        "raw_characters": 139,
+        "candidate_characters": 139,
+        "visible_elements": 1,
+        "element_tags": {
+          "circle": 1,
+          "script": 1,
+          "svg": 1
+        },
+        "palette_size": 1,
+        "degenerate_elements": 0,
+        "coordinates_checked": 3,
+        "coordinates_outlying": 0,
+        "visible_ratio": 1.0,
+        "exact_repetition_ratio": 1.0,
+        "explicit_colours_requested": 0,
+        "named_colours_requested": [
+          "blue"
+        ],
+        "explicit_colour_coverage": null,
+        "named_colour_coverage": 1,
+        "features_requested": [
+          "circle"
+        ],
+        "features_matched": [
+          "circle"
+        ],
+        "gradient_requested": false,
+        "gradient_free_requested": false
+      }
+    }
+  }
+}

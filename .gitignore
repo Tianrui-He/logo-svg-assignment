@@ -1,0 +1,10 @@
+gemma3-270m-it/
+output/
+upstream_source/
+base_smoke.json
+base_results.json
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.idea/
+.vscode/

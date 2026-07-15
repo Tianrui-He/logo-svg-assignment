@@ -1,0 +1,50 @@
+# Final candidate configuration for ms-swift 4.x.
+# Keep this file unchanged for the submitted run; record experimental overrides
+# in EXPERIMENTS.md.  The CLI may override `model` with a local directory.
+model: google/gemma-3-270m
+use_hf: false
+dataset: ./train.jsonl
+val_dataset: ./valid.jsonl
+split_dataset_ratio: 0.0
+
+tuner_type: lora
+tuner_backend: peft
+target_modules: all-linear
+lora_rank: 16
+lora_alpha: 32
+lora_dropout: 0.05
+
+torch_dtype: bfloat16
+max_length: 4096
+truncation_strategy: delete
+loss_scale: last_round
+packing: false
+
+num_train_epochs: 8
+per_device_train_batch_size: 1
+per_device_eval_batch_size: 1
+gradient_accumulation_steps: 8
+learning_rate: 0.0002
+weight_decay: 0.01
+lr_scheduler_type: cosine
+warmup_ratio: 0.05
+max_grad_norm: 1.0
+
+eval_strategy: steps
+eval_steps: 28
+save_strategy: steps
+save_steps: 28
+save_total_limit: 3
+load_best_model_at_end: true
+metric_for_best_model: loss
+greater_is_better: false
+early_stop_interval: 3
+
+logging_steps: 5
+logging_first_step: true
+report_to: tensorboard
+output_dir: ./output/gemma3-270m-lora-r16
+seed: 42
+data_seed: 42
+dataset_num_proc: 4
+dataloader_num_workers: 2
